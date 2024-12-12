@@ -56,11 +56,13 @@
             <p v-if="this.hash.inputValue ==='0x9b7c4f2e1d8a59c3bf071db2a6e23f1b5d8f9b0e2c7a4f9d2b0c1e8c7b4f3c5'" class="text-fiat">Fiat amount:
               <span v-show="this.hash.inputValue ==='0x9f8d5a2c3b4a1e7b09b122fd4b89ed7a059ed48d9c24e44a5f6a7d98c123cfad'">$4,000.00</span>
               <span v-show="this.hash.inputValue ==='0x3f5e2d1a8c9b04d2fa80123c5d93b7f4ad7c8f9e1b6a3b9c0d5f3e3d7a4a1e6'" >$1,500.00</span>
+              <span v-show="this.hash.inputValue ==='0x3a4f9d2b1e8c7a9d4e1b12c7f5a8a6b9c1f7a2d3d4e5f2b7a6c8f1d9b2d3c4'" >$7,500.00</span>
               <span v-show="this.hash.inputValue ==='0x9b7c4f2e1d8a59c3bf071db2a6e23f1b5d8f9b0e2c7a4f9d2b0c1e8c7b4f3c5'" >$0</span>
               | 1 ETH = {{ethereumRate}}</p>
             <p v-else class="text-fiat">Fiat amount:
               <span v-show="this.hash.inputValue ==='0x9f8d5a2c3b4a1e7b09b122fd4b89ed7a059ed48d9c24e44a5f6a7d98c123cfad'">$4,000.00</span>
               <span v-show="this.hash.inputValue ==='0x3f5e2d1a8c9b04d2fa80123c5d93b7f4ad7c8f9e1b6a3b9c0d5f3e3d7a4a1e6'" >$1,500.00</span>
+              <span v-show="this.hash.inputValue ==='0x3a4f9d2b1e8c7a9d4e1b12c7f5a8a6b9c1f7a2d3d4e5f2b7a6c8f1d9b2d3c4'" >$7,500.00</span>
               <span v-show="this.hash.inputValue ==='0x9b7c4f2e1d8a59c3bf071db2a6e23f1b5d8f9b0e2c7a4f9d2b0c1e8c7b4f3c5'" >$0</span>  | 1 BTC = {{bitcoinRate}}</p>
           </div>
 
