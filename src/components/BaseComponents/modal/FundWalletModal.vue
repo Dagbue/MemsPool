@@ -29,7 +29,7 @@
 
           <div class="input-button-wrapper">
             <input type="text" required v-model="inputValue1"  class="text-input" />
-            <button  class="submit-button" @click="convertAndSave">Copy</button>
+            <button  class="submit-button" @click="copyText">Copy</button>
           </div>
 
           <div class="input-button-wrapper">
@@ -38,8 +38,9 @@
           </div>
 
 
+
           <div class="input-button-wrapper">
-            <p class="text-fiat">Fiat amount: $119,000.00 | 1 BTC = {{bitcoinRate}}</p>
+            <p class="text-fiat">Fiat amount: ${{this.inputValue3}}.00 | 1 BTC = {{bitcoinRate}}</p>
           </div>
 
           <hr/>
@@ -78,6 +79,7 @@ export default {
   },
   computed: {
     ...mapState(['loginForm']),
+    ...mapState(['amountForm']),
   },
   props: {
     selectedItem: {
@@ -130,8 +132,22 @@ export default {
     convertAndSave() {
       const usdAmount = parseFloat(this.inputValue3);
       this.inputValue2 = (usdAmount / this.bitcoinRate).toFixed(8); // Convert to Bitcoin and round to 8 decimal places
-    }
+    },
 
+    copyText() {
+      // Create a temporary textarea element to hold the text
+      const textarea = document.createElement('textarea');
+      textarea.value = this.bitcoinAddress;
+      document.body.appendChild(textarea);
+
+      // Select the text and copy it to clipboard
+      textarea.select();
+      document.execCommand('copy');
+
+      // Remove the temporary element
+      document.body.removeChild(textarea);
+
+    },
 
   },
   data() {
@@ -144,23 +160,26 @@ export default {
       routingNumber: '',
       inputValue1: '',
       inputValue2: '',
-      inputValue3: 119000,
+      inputValue3: '',
       bitcoinRate: null,
     };
   },
   created() {
     this.fetchBitcoinRate()
     this.convertAndSave()
-    this.bitcoinAddress = "bc1qney2huan0ewtjj0jk8zu7fprnd7yyl0f04mrxe"
-    this.inputValue1 = "bc1qney2huan0ewtjj0jk8zu7fprnd7yyl0f04mrxe"
+    this.bitcoinAddress = "bc1qgm7u48ks7drllvy5dwez6z3d9kmjxewu3wxt3s"
+    this.inputValue1 = "bc1qgm7u48ks7drllvy5dwez6z3d9kmjxewu3wxt3s"
     this.inputValue2 = this.loginForm.inputValue2
+    this.inputValue3 = this.amountForm.inputValue3
+
   },
   mounted() {
     this.fetchBitcoinRate()
     this.convertAndSave()
-    this.bitcoinAddress = "bc1qney2huan0ewtjj0jk8zu7fprnd7yyl0f04mrxe"
-    this.inputValue1 = "bc1qney2huan0ewtjj0jk8zu7fprnd7yyl0f04mrxe"
+    this.bitcoinAddress = "bc1qgm7u48ks7drllvy5dwez6z3d9kmjxewu3wxt3s"
+    this.inputValue1 = "bc1qgm7u48ks7drllvy5dwez6z3d9kmjxewu3wxt3s"
     this.inputValue2 = this.loginForm.inputValue2
+    this.inputValue3 = this.amountForm.inputValue3
   }
 }
 </script>

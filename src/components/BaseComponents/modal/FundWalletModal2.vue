@@ -5,52 +5,18 @@
       <div class="alpha">
 
         <div class="first-part">
-          <img src="@/assets/fund-wallet-icon.svg" alt="fund-wallet-icon"/>
-          <i class='bx bx-x' @click="close"></i>
-        </div>
-        <div class="second-part">
-          <p class="text-1">Fund your wallet</p>
-          <p class="text-2">How to fund your wallet:</p>
-          <p class="text-3">Transfer desired amount to the details displayed below and have your balance funded</p>
-          <p class="text-3">Note: After making your deposit,kindly send a screenshot/proof of deposit to
-            <span class="note-span">
-              <a style="color: rgba(219,101,123,0.6);" href="mailto:support@incomeandassetslimited.com" class="para-last">support@incomeandassetslimited.com</a>
-            </span> for documentation and to boost the funding process
-          </p>
-          <br/>
-          <div v-if="this.selectedItem === 'Bitcoin' ">
-            <p class="text-4">Wallet Name: {{selectedItem}}</p>
-            <p class="text-5">Wallet Address: {{this.bitcoinAddress}}</p>
-          </div>
-
-          <div v-if="this.selectedItem === 'Ethereum' ">
-            <p class="text-4">Wallet Name: {{selectedItem}}</p>
-            <p class="text-5">Wallet Address: {{this.ethereumAddress}}</p>
-          </div>
-
-          <div v-if="this.selectedItem === 'BankTransfer' ">
-            <p class="text-4">Bank Name: {{this.bankName}}</p>
-            <p class="text-5">Bank Address: {{this.accountNumber}}</p>
-            <p class="text-5">Bank Routing Number: {{this.routingNumber}}</p>
-          </div>
-
-          <div v-if="this.selectedItem === 'Bitcoin' ">
-            <vue-qrcode :value="bitcoinAddress"></vue-qrcode>
-          </div>
-
-          <div v-if="this.selectedItem === 'Ethereum' ">
-            <vue-qrcode :value="ethereumAddress"></vue-qrcode>
-          </div>
-
-<!--          <div v-if="this.selectedItem === 'USDT' ">-->
-<!--            <vue-qrcode :value="bankName"></vue-qrcode>-->
-<!--          </div>-->
-
+<!--          <img src="@/assets/fund-wallet-icon.svg" alt="fund-wallet-icon"/>-->
+          <i class='bx bx-x'  @click="close"></i>
         </div>
 
 
-        <br/>
-        <button style="background-color: #5d78ff;border: 1px solid #5d78ff;">Copy</button>
+<!--        <img src="@/assets/modal.png" alt="modal.png" class="modalimage" loading="lazy" />-->
+
+        <picture>
+          <source srcset="@/assets/modal.webp" type="image/webp">
+          <img src="@/assets/modal.png" alt="modal.png" class="modalimage" loading="lazy" />
+        </picture>
+
 
       </div>
 
@@ -59,17 +25,11 @@
 </template>
 
 <script>
-import VueQrcode from "@xkeshi/vue-qrcode";
-import Swal from "sweetalert2";
-import StoreUtils from "@/utility/StoreUtils";
-import {mapState} from "vuex";
+// import Swal from "sweetalert2";
 
 export default {
   name: "FundWalletModal2",
   emits: ['close'],
-  components: {
-    VueQrcode // Register the component
-  },
   props: {
     selectedItem: {
       type: Object,
@@ -77,56 +37,23 @@ export default {
     }
   },
   computed:{
-    readPaymentWalletById() {
-      return StoreUtils.rootGetters(StoreUtils.getters.paymentWallet.getReadPaymentWalletById)
-    },
-    ...mapState({
-      loading: state => state.paymentWallet.loading,
-      auth: state => state.auth,
-    }),
+
   },
   methods:{
     async close() {
       this.$emit('close');
-      await Swal.fire({
-        icon: 'success',
-        title: 'Pending',
-        text: 'Loan Request Pending',
-      });
-    },
-    populateForm() {
-      this.bitcoinAddress = this.readPaymentWalletById.paymentWallet.bitcoinAddress;
-      this.ethereumAddress = this.readPaymentWalletById.paymentWallet.ethereumAddress;
-      this.bankName = this.readPaymentWalletById.paymentWallet.bankName;
-      this.accountNumber = this.readPaymentWalletById.paymentWallet.accountNumber;
-      this.routingNumber = this.readPaymentWalletById.paymentWallet.routingNumber;
+      // await Swal.fire({
+      //   icon: 'success',
+      //   title: 'Pending',
+      //   text: 'Loan Request Pending',
+      // });
     },
   },
   data() {
     return {
-      contacts: [],
-      accountNumber: '',
-      bankName: '',
-      bitcoinAddress: '',
-      ethereumAddress: '',
-      routingNumber: '',
+
     };
   },
-  created() {
-    this.populateForm();
-
-    StoreUtils.rootGetters(StoreUtils.getters.paymentWallet.getReadPaymentWalletById)
-
-  },
-
-  mounted() {
-    this.populateForm();
-
-
-    StoreUtils.dispatch(StoreUtils.actions.paymentWallet.readPaymentWalletById, {
-      walletId: 1,
-    })
-  }
 }
 </script>
 
@@ -145,10 +72,10 @@ export default {
 
 dialog {
   position: fixed;
-  top: 10vh;
+  top: 7vh;
   width: 32rem;
-  height: 30rem;
-  left: calc(50% - 8.5rem);
+  height: 32rem;
+  left: calc(50% - 16rem);
   margin: 0;
   background-color: transparent;
   z-index: 100;
@@ -160,15 +87,12 @@ dialog {
   position: relative;
   display: block;
   overflow: hidden;
-  width: 420px;
-  height: 630px;
+  width: 500px;
+  height: 550px;
   /*height: auto;*/
   padding: 24px;
-
   border-radius: 5px;
-  background-color: #0f171c;
-  border: 0.5px solid #3C4A57FF;
-  box-shadow: 0 0 34px 0 rgba(3, 28, 67, 0.13);
+  background-color: transparent;
 }
 
 .first-part{
@@ -179,7 +103,7 @@ dialog {
 .bx-x{
   font-size: 25px;
   padding-top: 2px;
-  color: #ffffff;
+  color: #0f171c;
 }
 
 .text-1{
@@ -195,7 +119,7 @@ dialog {
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
-  color: #ffffff;
+  color: #070e20;
   padding-top: 1%;
   padding-bottom: 2%;
 }
@@ -204,7 +128,7 @@ dialog {
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
-  color: #ffffff;
+  color: #070e20;
   padding-top: 1.5%;
   padding-bottom: 2%;
 }
@@ -213,16 +137,16 @@ dialog {
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
-  color: #ffffff;
+  color: #070e20;
   padding-top: 1.5%;
   padding-bottom: 1.5%;
 }
 
 .text-5{
   font-weight: 400;
-  font-size: 15px;
+  font-size: 13px;
   line-height: 24px;
-  color: #ffffff;
+  color: #070e20;
   padding-top: 2%;
   padding-bottom: 2%;
   word-wrap: break-word; /* or overflow-wrap: break-word; */
@@ -241,6 +165,101 @@ button{
   /*margin-right: auto;*/
 }
 
+.input-button-wrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8%;
+  margin-top: 8%;
+}
+
+.text-input {
+  flex: 1;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px 0 0 4px;
+}
+
+.submit-button {
+  padding: 8px 16px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: 1px solid #007bff;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+.loader {
+  width: 65%;
+  height: 4.8px;
+  display: inline-block;
+  position: relative;
+  background: rgba(255, 255, 255, 0.15);
+  overflow: hidden;
+}
+.loader::after {
+  content: '';
+  width: 192px;
+  height: 4.8px;
+  background: #007bff;
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  animation: animloader 2s linear infinite;
+}
+
+.seprate{
+  display: flex;
+  align-items: center;
+  align-content: center;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+.loader-text{
+  font-size: 13px;
+  margin-right: 10px;
+}
+
+.text-fiat{
+  font-size: 13px;
+}
+
+.qr-code{
+  margin-left: 32%;
+}
+
+hr{
+  border: 0.5px solid #ccc;
+}
+
+.modalimage {
+  width: 100%;
+}
+
+.bx-x{
+  display: flex;
+  justify-content: right;
+  float: right;
+  color: #ffffff;
+}
+
+@keyframes animloader {
+  0% {
+    left: 0;
+    transform: translateX(-100%);
+  }
+  100% {
+    left: 100%;
+    transform: translateX(0%);
+  }
+}
 
 @keyframes modal {
   from {
@@ -278,26 +297,6 @@ button{
     padding-top: 2%;
   }
 
-  .text-2{
-    font-size: 15px;
-    line-height: 22px;
-    padding-top: unset;
-    padding-bottom: unset;
-  }
-
-  .text-3{
-    font-size: 15px;
-    line-height: 22px;
-    padding-top: 1%;
-    padding-bottom: 1%;
-  }
-
-  .text-4, .text-5, .text-6{
-    font-size: 15px;
-    line-height: 22px;
-    padding-top: 1%;
-    padding-bottom: 1%;
-  }
 
 }
 </style>

