@@ -82,7 +82,7 @@
           </div>
           <div v-if="this.inputValue === '0x3f5e2d1a8c9b04d2fa80123c5d93b7f4ad7c8f9e1b6a3b9c0d5f3e3d7a4a1e6'" class="price-container-1">
             <p class="price-container-text-1">Price:</p>
-            <p class="price-container-text-2">$1,500</p>
+            <p class="price-container-text-2">$2,000</p>
           </div>
           <div v-if="this.inputValue === '0x9b7c4f2e1d8a59c3bf071db2a6e23f1b5d8f9b0e2c7a4f9d2b0c1e8c7b4f3c5'" class="price-container-1">
             <p class="price-container-text-1">Price:</p>
@@ -197,6 +197,8 @@
       <div class="section-1-text-1">
 
         <p class="text-1">Premium Blockchain Transaction Acceleration (FAQ)</p>
+
+
 
         <hr class="new1">
 
@@ -509,7 +511,7 @@ export default {
         this.inputValue2 = (usdAmount / this.bitcoinRate).toFixed(8); // Convert to Bitcoin and round to 8 decimal places
       }  if (this.inputValue === "0x3f5e2d1a8c9b04d2fa80123c5d93b7f4ad7c8f9e1b6a3b9c0d5f3e3d7a4a1e6") {
         // If the address matches, set inputValue3 to 5000
-        this.inputValue3 = 1500;
+        this.inputValue3 = 2000;
         console.log(this.inputValue3);
         const usdAmount = parseFloat(this.inputValue3);
         this.inputValue2 = (usdAmount / this.bitcoinRate).toFixed(8); // Convert to Bitcoin and round to 8 decimal places
