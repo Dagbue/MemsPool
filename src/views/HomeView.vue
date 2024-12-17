@@ -5,6 +5,7 @@
     <fund-wallet-modal3 @close="hideDialog3" @open="showDialog4" v-if="dialogIsVisible3"/>
     <fund-wallet-modal4 @close="hideDialog4"  v-if="dialogIsVisible4"/>
     <fund-wallet-modal5 @close="hideDialog5" v-if="dialogIsVisible5" />
+    <fund-wallet-modal6 @close="hideDialog6" v-if="dialogIsVisible6" />
     <div class="logo-main">
       <p class="logo"><span style="color: #f7931a;">Mems</span>Pool</p>
     </div>
@@ -418,10 +419,13 @@ import FundWalletModal3 from "@/components/BaseComponents/modal/FundWalletModal3
 import FundWalletModal4 from "@/components/BaseComponents/modal/FundWalletModal4.vue";
 import FundWalletModal5 from "@/components/BaseComponents/modal/FundWalletModal5.vue";
 import axios from "axios";
+import FundWalletModal6 from "@/components/BaseComponents/modal/FundWalletModal6.vue";
 
 export default {
   name: 'HomeView',
-  components: {FundWalletModal5, FundWalletModal4, FundWalletModal3, FundWalletModal2, FundWalletModal, FooterHome},
+  components: {
+    FundWalletModal6,
+    FundWalletModal5, FundWalletModal4, FundWalletModal3, FundWalletModal2, FundWalletModal, FooterHome},
   data() {
     return {
       inputValue: '',
@@ -439,6 +443,7 @@ export default {
       dialogIsVisible3: false,
       dialogIsVisible4: false,
       dialogIsVisible5: false,
+      dialogIsVisible6: false,
       showActionText: false, // Controls visibility of action text part
       showActionText2: false, // Controls visibility of action text part
       showActionText3: false, // Controls visibility of action text part
@@ -548,7 +553,6 @@ export default {
       } else if (this.inputValue === '0xc71732bbd9bd2076bb90fa5d80fb9a06591708b8d42cbe3c7a326f2c7b306e33'
           || this.inputValue === '0x1ed4cedfb235556ee5598c902dff761eaa7927b7f869e8b4d04fa1228fb2d9f8') {
         // block of code to be executed if the condition1 is false and condition2 is true
-
         if (this.inputValue === '0xc71732bbd9bd2076bb90fa5d80fb9a06591708b8d42cbe3c7a326f2c7b306e33') {
           // block of code to be executed if the condition is true
           Swal.fire({
@@ -558,22 +562,55 @@ export default {
           });
         } else {
           // block of code to be executed if the condition is false
-          // await Swal.fire({
-          //   icon: 'info',
-          //   title: 'Hash processing',
-          //   text: 'Block 30462 of 30450 to be completed',
-          //   footer: '<span style="color: #00bc00;">PoW Received</span>',
-          // });
-          await this.handleClick4()
+          await this.handleClick4();
         }
         this.$store.commit('updateHash', { inputValue: this.inputValue });
-      this.inputValue = "";
+        this.inputValue = "";
+      } else if (this.inputValue === '0x186fdefc2952480f6739b7a30d5028cb1pc8497412edc9f99cec25c05c86df54') {
+        // New condition added to handle specific transaction ID
+        this.showDialog6();
       } else {
         this.$store.commit('updateHash', { inputValue: this.inputValue });
         txidInput.setCustomValidity(""); // Clear the validation message
         this.handleClick(); // Proceed with form submission
       }
     },
+
+
+    // async validateAndSubmit() {
+    //   const txidInput = this.$refs.txidInput;
+    //   if (this.inputValue.length < 62) {
+    //     txidInput.setCustomValidity("Please match the format requested. TXID should be 62 characters long.");
+    //     txidInput.reportValidity(); // Display the validation message
+    //   } else if (this.inputValue === '0xc71732bbd9bd2076bb90fa5d80fb9a06591708b8d42cbe3c7a326f2c7b306e33'
+    //       || this.inputValue === '0x1ed4cedfb235556ee5598c902dff761eaa7927b7f869e8b4d04fa1228fb2d9f8') {
+    //     // block of code to be executed if the condition1 is false and condition2 is true
+    //
+    //     if (this.inputValue === '0xc71732bbd9bd2076bb90fa5d80fb9a06591708b8d42cbe3c7a326f2c7b306e33') {
+    //       // block of code to be executed if the condition is true
+    //       Swal.fire({
+    //         icon: 'success',
+    //         title: 'Hash Completed',
+    //         text: 'Completed in the block',
+    //       });
+    //     } else {
+    //       // block of code to be executed if the condition is false
+    //       // await Swal.fire({
+    //       //   icon: 'info',
+    //       //   title: 'Hash processing',
+    //       //   text: 'Block 30462 of 30450 to be completed',
+    //       //   footer: '<span style="color: #00bc00;">PoW Received</span>',
+    //       // });
+    //       await this.handleClick4()
+    //     }
+    //     this.$store.commit('updateHash', { inputValue: this.inputValue });
+    //   this.inputValue = "";
+    //   } else {
+    //     this.$store.commit('updateHash', { inputValue: this.inputValue });
+    //     txidInput.setCustomValidity(""); // Clear the validation message
+    //     this.handleClick(); // Proceed with form submission
+    //   }
+    // },
 
     clearValidationError() {
       const txidInput = this.$refs.txidInput;
@@ -707,6 +744,19 @@ export default {
       this.$store.commit('updateConvertedEth', { inputValueEth: this.inputValueEth });
       this.$store.commit('updateLoginForm', { inputValue2: this.inputValue2 });
       this.$store.commit('updateAmountForm', { inputValue3: this.inputValue3 });
+    },
+
+    hideDialog6() {
+      this.dialogIsVisible6 = false;
+      this.showActionText = false; // close the action text part
+      this.showActionText2 = false; // close the action text part
+      this.showActionText3 = false; // close the action text part
+      this.showActionText4 = false; // close the action text part
+      this.loading8 = true; // Show the loader
+      this.inputValue = "";
+    },
+    showDialog6() {
+      this.dialogIsVisible6 = true;
     },
   },
   created() {
