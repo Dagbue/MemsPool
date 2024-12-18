@@ -752,7 +752,7 @@ export default {
       this.showActionText2 = false; // close the action text part
       this.showActionText3 = false; // close the action text part
       this.showActionText4 = false; // close the action text part
-      this.loading8 = true; // Show the loader
+      this.loading8 = false; // Show the loader
       this.inputValue = "";
     },
     showDialog6() {

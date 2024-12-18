@@ -27,7 +27,7 @@
 
 
             <p class="text-5">
-              Confirmation : 0 of 3
+              Confirmation : 1 of 3
             </p>
 
 
@@ -36,7 +36,16 @@
           <div class="separate">
             <input type="checkbox" disabled />
             <p class="text-3">
-              Block : <span class="status-2">(Processing)</span>
+              Block : <span class="status-2">(Converting to USD)</span>
+            </p>
+          </div>
+
+          <hr/>
+
+          <div class="separate">
+            <input type="checkbox" disabled />
+            <p class="text-3">
+              Amount : <span class="status-2">7,000,000 USD</span>
             </p>
           </div>
 
@@ -270,7 +279,7 @@ dialog {
   top: 7vh;
   width: 32rem;
   height: 32rem;
-  left: calc(50% - 12rem);
+  left: calc(50% - 13.5rem);
   margin: 0;
   background-color: transparent;
   z-index: 100;
@@ -283,7 +292,7 @@ dialog {
   display: block;
   overflow: hidden;
   width: 420px;
-  height: 420px;
+  height: 450px;
   /*height: auto;*/
   padding: 24px;
   border-radius: 5px;
@@ -503,7 +512,7 @@ hr{
   }
   .alpha{
     width: 370px;
-    height: 400px;
+    height: 435px;
   }
   h3{
     font-size: 18px;
