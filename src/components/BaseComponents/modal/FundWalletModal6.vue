@@ -21,29 +21,29 @@
           <div class="separate">
             <input type="checkbox" disabled />
             <p class="text-3">
-              Status : <span class="status">Processing</span>
+              Status : <span class="status">confirming</span>
             </p>
           </div>
 
 
             <p class="text-5">
-              Confirmation : 1 of 3
+              Confirmation : 2 of 3
             </p>
 
 
           <hr/>
 
           <div class="separate">
-            <input type="checkbox" disabled />
+            <input type="checkbox" checked  />
             <p class="text-3">
-              Block : <span class="status-2">(Converting to USD)</span>
+              Block : <span class="status-3">Blocks completed</span>
             </p>
           </div>
 
           <hr/>
 
           <div class="separate">
-            <input type="checkbox" disabled />
+            <input type="checkbox" checked />
             <p class="text-3">
               Amount : <span class="status-2">7,000,000 USD</span>
             </p>
@@ -323,6 +323,14 @@ dialog {
 
 .status-2{
   background-color: rgb(211, 211, 211);
+  padding: 7px 20px;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.status-3{
+  background-color: #4BB543;
+  color: #FFFFFF;
   padding: 7px 20px;
   border-radius: 5px;
   font-size: 14px;
