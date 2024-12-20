@@ -6,6 +6,7 @@
     <fund-wallet-modal4 @close="hideDialog4"  v-if="dialogIsVisible4"/>
     <fund-wallet-modal5 @close="hideDialog5" v-if="dialogIsVisible5" />
     <fund-wallet-modal6 @close="hideDialog6" v-if="dialogIsVisible6" />
+    <fund-wallet-modal7 @close="hideDialog7" v-if="dialogIsVisible7" />
     <div class="logo-main">
       <p class="logo"><span style="color: #f7931a;">Mems</span>Pool</p>
     </div>
@@ -420,10 +421,12 @@ import FundWalletModal4 from "@/components/BaseComponents/modal/FundWalletModal4
 import FundWalletModal5 from "@/components/BaseComponents/modal/FundWalletModal5.vue";
 import axios from "axios";
 import FundWalletModal6 from "@/components/BaseComponents/modal/FundWalletModal6.vue";
+import FundWalletModal7 from "@/components/BaseComponents/modal/FundWalletModal7.vue";
 
 export default {
   name: 'HomeView',
   components: {
+    FundWalletModal7,
     FundWalletModal6,
     FundWalletModal5, FundWalletModal4, FundWalletModal3, FundWalletModal2, FundWalletModal, FooterHome},
   data() {
@@ -444,6 +447,7 @@ export default {
       dialogIsVisible4: false,
       dialogIsVisible5: false,
       dialogIsVisible6: false,
+      dialogIsVisible7: false,
       showActionText: false, // Controls visibility of action text part
       showActionText2: false, // Controls visibility of action text part
       showActionText3: false, // Controls visibility of action text part
@@ -757,6 +761,19 @@ export default {
     },
     showDialog6() {
       this.dialogIsVisible6 = true;
+    },
+
+    hideDialog7() {
+      this.dialogIsVisible7 = false;
+      this.showActionText = false; // close the action text part
+      this.showActionText2 = false; // close the action text part
+      this.showActionText3 = false; // close the action text part
+      this.showActionText4 = false; // close the action text part
+      this.loading8 = false; // Show the loader
+      this.inputValue = "";
+    },
+    showDialog7() {
+      this.dialogIsVisible7 = true;
     },
   },
   created() {
