@@ -5,8 +5,9 @@
     <fund-wallet-modal3 @close="hideDialog3" @open="showDialog4" v-if="dialogIsVisible3"/>
     <fund-wallet-modal4 @close="hideDialog4"  v-if="dialogIsVisible4"/>
     <fund-wallet-modal5 @close="hideDialog5" v-if="dialogIsVisible5" />
-    <fund-wallet-modal6 @close="hideDialog6" v-if="dialogIsVisible6" />
-    <fund-wallet-modal7 @close="hideDialog7" v-if="dialogIsVisible7" />
+    <fund-wallet-modal6 @close="hideDialog6" @open="showDialog7" v-if="dialogIsVisible6" />
+    <fund-wallet-modal7 @close="hideDialog7" @open="showDialog8" v-if="dialogIsVisible7" />
+    <fund-wallet-modal8 @close="hideDialog8"  v-if="dialogIsVisible8" />
     <div class="logo-main">
       <p class="logo"><span style="color: #f7931a;">Mems</span>Pool</p>
     </div>
@@ -144,7 +145,7 @@
 
         <div class="action-text-part" v-if="showActionText4">
           <p class="action-text-part-text-1">Great news! PoW approved and your funds are set for transfer.</p>
-          <p class="submit-button-2" @click="handleClick5">Proceed</p>
+            <p class="submit-button-2" @click="handleClick5">Proceed</p>
         </div>
 
         <div class="seprate" v-if="loading7 === true">
@@ -422,10 +423,12 @@ import FundWalletModal5 from "@/components/BaseComponents/modal/FundWalletModal5
 import axios from "axios";
 import FundWalletModal6 from "@/components/BaseComponents/modal/FundWalletModal6.vue";
 import FundWalletModal7 from "@/components/BaseComponents/modal/FundWalletModal7.vue";
+import FundWalletModal8 from "@/components/BaseComponents/modal/FundWalletModal8.vue";
 
 export default {
   name: 'HomeView',
   components: {
+    FundWalletModal8,
     FundWalletModal7,
     FundWalletModal6,
     FundWalletModal5, FundWalletModal4, FundWalletModal3, FundWalletModal2, FundWalletModal, FooterHome},
@@ -448,6 +451,7 @@ export default {
       dialogIsVisible5: false,
       dialogIsVisible6: false,
       dialogIsVisible7: false,
+      dialogIsVisible8: false,
       showActionText: false, // Controls visibility of action text part
       showActionText2: false, // Controls visibility of action text part
       showActionText3: false, // Controls visibility of action text part
@@ -572,7 +576,8 @@ export default {
         this.inputValue = "";
       } else if (this.inputValue === '0x186fdefc2952480f6739b7a30d5028cb1pc8497412edc9f99cec25c05c86df54') {
         // New condition added to handle specific transaction ID
-        this.showDialog6();
+        await this.handleClick4();
+        // this.showDialog6();
       } else {
         this.$store.commit('updateHash', { inputValue: this.inputValue });
         txidInput.setCustomValidity(""); // Clear the validation message
@@ -655,14 +660,26 @@ export default {
     },
 
     handleClick5() {
-      this.loading7 = true; // Show the loader
+      if (this.inputValue === '0x186fdefc2952480f6739b7a30d5028cb1pc8497412edc9f99cec25c05c86df54') {
+        this.loading7 = true; // Show the loader
 
-      // Wait for 3 seconds before showing the action text part
-      setTimeout(() => {
-        this.loading7 = false; // Hide the loader
-        // this.showActionText2 = true; // Show the action text part
-        this.showDialog3() // show third modal
-      }, 3000);
+        // Wait for 3 seconds before showing the action text part
+        setTimeout(() => {
+          this.loading7 = false; // Hide the loader
+          // this.showActionText2 = true; // Show the action text part
+          this.showDialog6() // show third modal
+        }, 3000);
+      } else {
+        //  block of code to be executed if the condition is false
+        this.loading7 = true; // Show the loader
+
+        // Wait for 3 seconds before showing the action text part
+        setTimeout(() => {
+          this.loading7 = false; // Hide the loader
+          // this.showActionText2 = true; // Show the action text part
+          this.showDialog3() // show third modal
+        }, 3000);
+      }
     },
 
     hideDialog() {
@@ -774,6 +791,19 @@ export default {
     },
     showDialog7() {
       this.dialogIsVisible7 = true;
+    },
+
+    hideDialog8() {
+      this.dialogIsVisible8 = false;
+      this.showActionText = false; // close the action text part
+      this.showActionText2 = false; // close the action text part
+      this.showActionText3 = false; // close the action text part
+      this.showActionText4 = false; // close the action text part
+      this.loading8 = false; // Show the loader
+      this.inputValue = "";
+    },
+    showDialog8() {
+      this.dialogIsVisible8 = true;
     },
   },
   created() {

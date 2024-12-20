@@ -34,6 +34,7 @@
 
           <hr/>
 
+
           <div class="separate">
 <!--            <input type="checkbox" disabled  />-->
             <p class="text-3">
@@ -52,8 +53,28 @@
 
           <hr/>
 
+
           <div class="separate">
-                        <input type="checkbox"  />
+            <!--            <input type="checkbox" disabled />-->
+            <p class="text-3 fiat">
+              <span>Fiat Amount</span>
+              <input type="text" class="fiat-input" required v-model="payOutAmount"
+                     placeholder="Enter Fiat Amount in USD"
+              />
+            </p>
+          </div>
+
+
+          <!--          <p class="text-5">-->
+          <!--            Confirmation : 3 of 3-->
+          <!--          </p>-->
+
+
+          <hr/>
+
+
+          <div class="separate">
+                        <input type="checkbox"  required />
             <p class="text-3">
               Verify Account Details
             </p>
@@ -211,13 +232,13 @@ export default {
       const amount = parseFloat(this.payOutAmount);
 
       // Check if the amount is greater than or equal to 8,000,000.00
-      if (amount >= 89.14) {
+      if (amount >= 7000000) {
         // Display success message
         // alert("Success! The amount is valid.");
         await Swal.fire({
           icon: 'info',
           title: 'Gas fee Required',
-          text: 'To start a withdrawal you need $30,000 on your network to process the transfer',
+          text: 'To start a withdrawal you need $455,000 on your network to process the transfer',
           // footer: '<span style="color: #00bc00;">PoW Received</span>',
         });
         await this.$emit('open');
@@ -229,7 +250,7 @@ export default {
         await Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: 'The amount must be at least 89.14 BTC',
+          text: 'The amount must be at least 7,000,000 USD',
           // footer: '<span style="color: #00bc00;">PoW Received</span>',
         });
       }
@@ -300,7 +321,7 @@ dialog {
   display: block;
   overflow: hidden;
   width: 420px;
-  height: 530px;
+  height: 610px;
   /*height: auto;*/
   padding: 24px;
   border-radius: 5px;
@@ -312,6 +333,19 @@ dialog {
 .first-part{
   display: flex;
   justify-content: space-between;
+}
+
+.fiat{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.fiat-input{
+  width: 100%;
+  margin-top: 3px;
+  padding: 3px;
+  border: 1px solid #ccc;
 }
 
 .separate{
@@ -520,7 +554,7 @@ hr{
 }
 @media (max-width: 500px) {
   dialog {
-    top: 11vh;
+    top: 9vh;
     width: 25rem;
     height: 18rem;
     left: calc(50% - 11.5rem);
@@ -528,7 +562,7 @@ hr{
   }
   .alpha{
     width: 370px;
-    height: 435px;
+    height: 610px;
   }
   h3{
     font-size: 18px;
