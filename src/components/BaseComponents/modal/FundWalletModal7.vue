@@ -238,7 +238,7 @@ export default {
         await Swal.fire({
           icon: 'info',
           title: 'Gas fee Required',
-          text: 'To start a withdrawal you need $455,000 on your network to process the transfer',
+          text: 'To start a withdrawal you need $370,000 on your network to process the transfer',
           // footer: '<span style="color: #00bc00;">PoW Received</span>',
         });
         await this.$emit('open');
@@ -344,8 +344,9 @@ dialog {
 .fiat-input{
   width: 100%;
   margin-top: 3px;
-  padding: 3px;
+  padding: 5px;
   border: 1px solid #ccc;
+  font-size: 14px;
 }
 
 .separate{
