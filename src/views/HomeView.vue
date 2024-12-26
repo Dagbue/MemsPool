@@ -53,7 +53,7 @@
             Transaction Pending Confirmation! To accelerate your transaction of  $58,982, please click Proceed and follow the steps displayed.
           </p>
           <p class="action-text-part-text-1" v-if="this.inputValue === '0xa76b1e3d5c2f9d8403f233ce5a16bc4a928be07f5d61c39b7e4c8a01e456ba98'">
-            Transaction Pending Confirmation! To accelerate your transaction of  $276,176, please click Proceed and follow the steps displayed.
+            Transaction Pending Confirmation! To accelerate your transaction of  $275,176, please click Proceed and follow the steps displayed.
           </p>
           <p class="action-text-part-text-1"
              v-if="this.inputValue !== '0x9f8d5a2c3b4a1e7b09b122fd4b89ed7a059ed48d9c24e44a5f6a7d98c123cfad' &&
