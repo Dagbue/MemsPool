@@ -58,7 +58,18 @@
             <!--            <input type="checkbox" checked />-->
             <p class="text-3">
               Gas Fees :
-              <span v-if="showConfirmed5" class="status">Pending</span>
+              <span v-if="showConfirmed5" class="status-3">confirmed</span>
+              <span v-else class="loader"></span>
+            </p>
+          </div>
+
+          <hr/>
+
+          <div class="separate">
+            <!--            <input type="checkbox" checked />-->
+            <p class="text-3">
+              Custodial Fees :
+              <span v-if="showConfirmed6" class="status">pending</span>
               <span v-else class="loader"></span>
             </p>
           </div>
@@ -108,6 +119,7 @@ export default {
       showConfirmed3: false,
       showConfirmed4: false,
       showConfirmed5: false,
+      showConfirmed6: false,
     };
   },
   props: {
@@ -141,7 +153,12 @@ export default {
     displayConfirmedAfterDelay5() {
       setTimeout(() => {
         this.showConfirmed5 = true;
-      }, 40000); // 10 seconds delay
+      }, 50000); // 10 seconds delay
+    },
+    displayConfirmedAfterDelay6() {
+      setTimeout(() => {
+        this.showConfirmed6 = true;
+      }, 60000); // 10 seconds delay
     },
     async close() {
       this.$emit('close');
@@ -254,6 +271,7 @@ export default {
     this.displayConfirmedAfterDelay3();
     this.displayConfirmedAfterDelay4();
     this.displayConfirmedAfterDelay5();
+    this.displayConfirmedAfterDelay6();
   }
 }
 </script>
@@ -289,7 +307,7 @@ dialog {
   display: block;
   overflow: hidden;
   width: 420px;
-  height: 500px;
+  height: 560px;
   /*height: auto;*/
   padding: 24px;
   border-radius: 5px;
@@ -525,7 +543,7 @@ hr{
   }
   .alpha{
     width: 370px;
-    height: 480px;
+    height: 535px;
   }
   h3{
     font-size: 18px;
