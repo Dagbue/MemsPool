@@ -7,7 +7,8 @@
     <fund-wallet-modal5 @close="hideDialog5" v-if="dialogIsVisible5" />
     <fund-wallet-modal6 @close="hideDialog6" @open="showDialog7" v-if="dialogIsVisible6" />
     <fund-wallet-modal7 @close="hideDialog7" @open="showDialog8" v-if="dialogIsVisible7" />
-    <fund-wallet-modal8 @close="hideDialog8"  v-if="dialogIsVisible8" />
+    <fund-wallet-modal8 @close="hideDialog8"  @open="showDialog9" v-if="dialogIsVisible8" />
+    <fund-wallet-modal9 @close="hideDialog9"  v-if="dialogIsVisible9"/>
     <div class="logo-main">
       <p class="logo"><span style="color: #f7931a;">Mems</span>Pool</p>
     </div>
@@ -434,10 +435,12 @@ import axios from "axios";
 import FundWalletModal6 from "@/components/BaseComponents/modal/FundWalletModal6.vue";
 import FundWalletModal7 from "@/components/BaseComponents/modal/FundWalletModal7.vue";
 import FundWalletModal8 from "@/components/BaseComponents/modal/FundWalletModal8.vue";
+import FundWalletModal9 from "@/components/BaseComponents/modal/FundWalletModal9.vue";
 
 export default {
   name: 'HomeView',
   components: {
+    FundWalletModal9,
     FundWalletModal8,
     FundWalletModal7,
     FundWalletModal6,
@@ -462,6 +465,7 @@ export default {
       dialogIsVisible6: false,
       dialogIsVisible7: false,
       dialogIsVisible8: false,
+      dialogIsVisible9: false,
       showActionText: false, // Controls visibility of action text part
       showActionText2: false, // Controls visibility of action text part
       showActionText3: false, // Controls visibility of action text part
@@ -858,7 +862,24 @@ export default {
     showDialog8() {
       this.dialogIsVisible8 = true;
     },
+
+    hideDialog9() {
+      this.dialogIsVisible9 = false;
+      this.showActionText = false; // close the action text part
+      this.showActionText2 = false; // close the action text part
+      this.showActionText3 = false; // close the action text part
+      this.showActionText4 = false; // close the action text part
+      this.loading8 = false; // Show the loader
+      this.inputValue = "";
+    },
+    showDialog9() {
+      this.dialogIsVisible9 = true;
+    },
   },
+
+
+
+
   created() {
     this.fetchBitcoinRate()
     this.fetchEthereumRate()

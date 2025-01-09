@@ -78,7 +78,7 @@ import axios from "axios";
 export default {
   name: "FundWalletModal8",
   components: {VueQrcode},
-  emits: ['close'],
+  emits: ['close', 'open'],
   computed: {
     ...mapState(['loginForm']),
   },
@@ -91,7 +91,8 @@ export default {
 
   methods:{
     async close() {
-      this.$emit('close');
+      await this.$emit('open');
+      await this.$emit('close');
       // await Swal.fire({
       //   icon: 'success',
       //   title: 'Pending',
@@ -134,19 +135,6 @@ export default {
             this.loading = false;
           });
     },
-
-    // convertAndSave() {
-    //   if (this.bitcoinRate && this.inputValue3) {
-    //     const usdAmount = parseFloat(this.inputValue3);
-    //     if (!isNaN(usdAmount)) {
-    //       this.inputValue2 = (usdAmount / this.bitcoinRate).toFixed(8); // Convert to Bitcoin and round to 8 decimal places
-    //     } else {
-    //       this.inputValue2 = '';
-    //     }
-    //   } else {
-    //     this.inputValue2 = '';
-    //   }
-    // },
 
     convertAndSave() {
       const usdAmount = parseFloat(this.inputValue3);
