@@ -53,16 +53,16 @@
           <hr/>
 
           <div class="seprate" >
-            <p class="loader-text" >Awaiting Payment</p>
-            <span class="loader"></span>
+            <p class="loader-text">{{ loaderText }}</p>
+            <span v-if="loaderActive" class="loader"></span>
           </div>
 
 
         </div>
 
 
-        <!--        <br/>-->
-        <!--        <button style="background-color: #007bff;border: 1px solid #007bff;">Copy</button>-->
+                <br/>
+                <p class="btn" @click="close" style="background-color: #007bff;border: 1px solid #007bff;display: inline-block;">Okay</p>
 
       </div>
 
@@ -170,6 +170,8 @@ export default {
       inputValue3: 119000,
       inputValue4: 370000,
       bitcoinRate: null,
+      loaderText: 'Awaiting Payment',  // Default text
+      loaderActive: true,  // Set loader to active by default
     };
   },
   created() {
@@ -187,6 +189,12 @@ export default {
     this.bitcoinAddress = "0x623F72a30c85c4CBE77Ec4fe1F0dFCdC4e59b73E"
     this.inputValue1 = "0x623F72a30c85c4CBE77Ec4fe1F0dFCdC4e59b73E"
     this.inputValue2 = this.loginForm.inputValue2
+
+    // Start the loader for 3 seconds, then stop it and update the text
+    setTimeout(() => {
+      this.loaderActive = false;   // Stop the loader
+      this.loaderText = 'Payment Received';  // Update the text
+    }, 5000);  // 5000 ms = 5 seconds
   }
 }
 </script>
@@ -222,7 +230,7 @@ dialog {
   display: block;
   overflow: hidden;
   width: 420px;
-  height: 600px;
+  height: 650px;
   /*height: auto;*/
   padding: 24px;
   border-radius: 5px;
@@ -288,7 +296,7 @@ dialog {
   word-wrap: break-word; /* or overflow-wrap: break-word; */
 }
 
-button{
+.btn{
   padding: 8px 55px;
   color: white;
   background-color: #0f171c;
