@@ -311,7 +311,7 @@ dialog {
 }
 
 .status{
-  background-color: #FFBF00;
+  background-color: #cc0000;
   padding: 4px 18px;
   color: #FFFFFF;
   border-radius: 5px;
