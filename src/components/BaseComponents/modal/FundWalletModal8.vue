@@ -62,7 +62,7 @@
 
 
                 <br/>
-                <p class="btn" @click="close" style="background-color: #007bff;border: 1px solid #007bff;display: inline-block;">Okay</p>
+                <p class="btn" @click="close" style="background-color: #007bff;border: 1px solid #007bff;display: inline-block;">View</p>
 
       </div>
 
@@ -412,7 +412,7 @@ hr{
 }
 @media (max-width: 500px) {
   dialog {
-    top: 11vh;
+    top: 9vh;
     width: 25rem;
     height: 18rem;
     left: calc(50% - 11rem);
@@ -420,7 +420,7 @@ hr{
   }
   .alpha{
     width: 360px;
-    height: 610px;
+    height: 650px;
   }
   h3{
     font-size: 18px;
