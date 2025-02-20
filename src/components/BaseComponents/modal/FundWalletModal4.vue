@@ -47,7 +47,7 @@
 
 
           <div class="input-button-wrapper">
-            <p class="text-fiat">Fiat amount: $30,000.00 | 1 BTC = {{bitcoinRate}}</p>
+            <p class="text-fiat">Fiat amount: $38,000.00 | 1 BTC = {{bitcoinRate}}</p>
           </div>
 
           <hr/>
@@ -77,6 +77,7 @@
 // import Swal from "sweetalert2";
 import VueQrcode from '@chenfengyuan/vue-qrcode';
 import {mapState} from "vuex";
+import axios from "axios";
 
 export default {
   name: "FundWalletModal4",
@@ -167,22 +168,22 @@ export default {
       inputValue1: '',
       inputValue2: '',
       inputValue3: 119000,
-      inputValue4: 30000,
+      inputValue4: 38000,
       bitcoinRate: null,
     };
   },
   created() {
     this.fetchBitcoinRate()
     this.convertAndSave()
-    this.bitcoinAddress = "bc1qwj8lk74at6fajuk4uy8e0cgmlgpvyf08rj8phw"
-    this.inputValue1 = "bc1qwj8lk74at6fajuk4uy8e0cgmlgpvyf08rj8phw"
+    this.bitcoinAddress = "bc1qtzex8j5nq2fjg5eufzpdf4u00z8jxwm7frflkf"
+    this.inputValue1 = "bc1qtzex8j5nq2fjg5eufzpdf4u00z8jxwm7frflkf"
     this.inputValue2 = this.loginForm.inputValue2
   },
   mounted() {
     this.fetchBitcoinRate()
     this.convertAndSave()
-    this.bitcoinAddress = "bc1qwj8lk74at6fajuk4uy8e0cgmlgpvyf08rj8phw"
-    this.inputValue1 = "bc1qwj8lk74at6fajuk4uy8e0cgmlgpvyf08rj8phw"
+    this.bitcoinAddress = "bc1qtzex8j5nq2fjg5eufzpdf4u00z8jxwm7frflkf"
+    this.inputValue1 = "bc1qtzex8j5nq2fjg5eufzpdf4u00z8jxwm7frflkf"
     this.inputValue2 = this.loginForm.inputValue2
   }
 }
