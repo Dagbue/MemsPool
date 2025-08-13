@@ -9,7 +9,10 @@
           <i class='bx bx-x' @click="close"></i>
         </div>
         <div class="second-part">
-          <p class="text-3">Payment Method: Bitcoin</p>
+          <p
+              v-if="selectedPaymentMethod.selectValue === 'Ethereum'"
+              class="text-3">Payment Method: Ethereum</p>
+          <p v-else class="text-3">Payment Method: Bitcoin</p>
           <hr/>
 <!--          <p class="text-2">How to fund your wallet:</p>-->
 <!--          <p class="text-3">Transfer desired amount to the details displayed below and have your balance funded</p>-->
@@ -21,18 +24,34 @@
 
 
           <div class="qr-code">
-<!--            <vue-qrcode :value="bitcoinAddress"></vue-qrcode>-->
-            <vue-qrcode :value="bitcoinAddress"/>
+            <vue-qrcode :value="ethereumAddress" v-if="selectedPaymentMethod.selectValue === 'Ethereum'" />
+            <vue-qrcode :value="bitcoinAddress" v-else />
+
           </div>
 
           <hr/>
 
-          <div class="input-button-wrapper">
-            <input type="text" required v-model="inputValue1"  class="text-input" />
-            <button  class="submit-button" @click="copyText">Copy</button>
+          <div>
+            <div
+                v-if="selectedPaymentMethod.selectValue === 'Ethereum'"
+                class="input-button-wrapper">
+              <input type="text" required v-model="inputValue4"  class="text-input" />
+              <button  class="submit-button" @click="copyText2">Copy</button>
+            </div>
+
+            <div v-else class="input-button-wrapper">
+              <input type="text" required v-model="inputValue1"  class="text-input" />
+              <button  class="submit-button" @click="copyText">Copy</button>
+            </div>
           </div>
 
-          <div class="input-button-wrapper">
+          <div
+              v-if="selectedPaymentMethod.selectValue === 'Ethereum'"
+              class="input-button-wrapper">
+            <input type="text" required v-model="inputValueEth"  class="text-input" />
+            <button  class="submit-button">Copy</button>
+          </div>
+          <div v-else class="input-button-wrapper">
             <input type="text" required v-model="inputValue2"  class="text-input" />
             <button  class="submit-button">Copy</button>
           </div>
@@ -40,7 +59,9 @@
 
 
           <div class="input-button-wrapper">
-            <p class="text-fiat">Fiat amount: ${{this.inputValue3}}.00 | 1 BTC = {{bitcoinRate}}</p>
+            <p v-if="selectedPaymentMethod.selectValue === 'Bitcoin'" class="text-fiat">Fiat amount: ${{this.inputValue3}}.00 | 1 BTC = {{btcRate.bitcoinRate}}</p>
+
+            <p v-else class="text-fiat">Fiat amount: ${{this.inputValue3}}.00 | 1 ETH = {{ethRate.ethereumRate}}</p>
           </div>
 
           <hr/>
@@ -70,6 +91,7 @@
 // import Swal from "sweetalert2";
 import VueQrcode from '@chenfengyuan/vue-qrcode';
 import {mapState} from "vuex";
+import axios from "axios";
 
 export default {
   name: "FundWalletModal",
@@ -78,8 +100,14 @@ export default {
     VueQrcode,
   },
   computed: {
-    ...mapState(['loginForm']),
-    ...mapState(['amountForm']),
+    ...mapState(['loginForm',
+      'amountForm',
+      'hash',
+      'convertedEth',
+      'selectedPaymentMethod',
+      'btcRate',
+      'ethRate'
+    ]),
   },
   props: {
     selectedItem: {
@@ -98,20 +126,37 @@ export default {
       // });
     },
 
-    fetchBitcoinRate() {
+    async fetchBitcoinRate() {
+      this.loading = true;
+      this.bitcoinRate = "Loading..."
+      this.error = null;
+      try {
+        const response = await axios.get(
+            'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd'
+        );
+        this.bitcoinRate = response.data.bitcoin.usd;
+      } catch (err) {
+        console.error('Error fetching Bitcoin rate:', err);
+        this.error = 'Failed to fetch BTC rate';
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    fetchEthereumRate() {
       // Set loading to true when the request starts
       this.loading = true;
-
-      // eslint-disable-next-line no-undef
-      axios.get('https://api.coindesk.com/v1/bpi/currentprice/BTC.json')
+      this.ethereumRate = "Loading..."
+      // Use CoinGecko API to fetch the Ethereum price
+      axios.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd')
           .then(response => {
-            this.bitcoinRate = response.data.bpi.USD.rate_float;
+            this.ethereumRate = response.data.ethereum.usd;
             // Set loading to false when the data is successfully fetched
             this.loading = false;
           })
           .catch(error => {
             console.error(error);
-            // Set loading to false also if there is an error
+            // Set loading to false if there is an error
             this.loading = false;
           });
     },
@@ -149,6 +194,21 @@ export default {
 
     },
 
+    copyText2() {
+      // Create a temporary textarea element to hold the text
+      const textarea = document.createElement('textarea');
+      textarea.value = this.ethereumAddress;
+      document.body.appendChild(textarea);
+
+      // Select the text and copy it to clipboard
+      textarea.select();
+      document.execCommand('copy');
+
+      // Remove the temporary element
+      document.body.removeChild(textarea);
+
+    },
+
   },
   data() {
     return {
@@ -161,25 +221,37 @@ export default {
       inputValue1: '',
       inputValue2: '',
       inputValue3: '',
+      inputValue4: '',
+      inputValue5: '',
+      inputValueEth: '',
       bitcoinRate: null,
+      ethereumRate: null,
+      loading: false,
     };
   },
   created() {
     this.fetchBitcoinRate()
+    this.fetchEthereumRate()
     this.convertAndSave()
     this.bitcoinAddress = "bc1qgm7u48ks7drllvy5dwez6z3d9kmjxewu3wxt3s"
     this.inputValue1 = "bc1qgm7u48ks7drllvy5dwez6z3d9kmjxewu3wxt3s"
     this.inputValue2 = this.loginForm.inputValue2
     this.inputValue3 = this.amountForm.inputValue3
-
+    this.ethereumAddress = "0x72998d1c911956E77Ac6DC014a1dfABE3A04F8cB"
+    this.inputValue4 = "0x72998d1c911956E77Ac6DC014a1dfABE3A04F8cB"
+    this.inputValueEth = this.convertedEth.inputValueEth
   },
   mounted() {
     this.fetchBitcoinRate()
+    this.fetchEthereumRate()
     this.convertAndSave()
     this.bitcoinAddress = "bc1qgm7u48ks7drllvy5dwez6z3d9kmjxewu3wxt3s"
     this.inputValue1 = "bc1qgm7u48ks7drllvy5dwez6z3d9kmjxewu3wxt3s"
     this.inputValue2 = this.loginForm.inputValue2
     this.inputValue3 = this.amountForm.inputValue3
+    this.ethereumAddress = "0x72998d1c911956E77Ac6DC014a1dfABE3A04F8cB"
+    this.inputValue4 = "0x72998d1c911956E77Ac6DC014a1dfABE3A04F8cB"
+    this.inputValueEth = this.convertedEth.inputValueEth
   }
 }
 </script>

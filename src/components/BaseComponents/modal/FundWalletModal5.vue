@@ -8,8 +8,11 @@
           <img src="@/assets/fund-wallet-icon.svg" alt="fund-wallet-icon"/>
           <i class='bx bx-x' @click="close"></i>
         </div>
+
         <div class="second-part">
-          <p v-if="this.hash.inputValue ==='0x9b7c4f2e1d8a59c3bf071db2a6e23f1b5d8f9b0e2c7a4f9d2b0c1e8c7b4f3c5'" class="text-3">Payment Method: Ethereum</p>
+          <p
+              v-if="selectedPaymentMethod.selectValue === 'Ethereum'"
+              class="text-3">Payment Method: Ethereum</p>
           <p v-else class="text-3">Payment Method: Bitcoin</p>
           <hr/>
           <!--          <p class="text-2">How to fund your wallet:</p>-->
@@ -22,7 +25,7 @@
 
 
           <div class="qr-code">
-            <vue-qrcode :value="ethereumAddress" v-if="this.hash.inputValue ==='0x9b7c4f2e1d8a59c3bf071db2a6e23f1b5d8f9b0e2c7a4f9d2b0c1e8c7b4f3c5'" />
+            <vue-qrcode :value="ethereumAddress" v-if="selectedPaymentMethod.selectValue === 'Ethereum'" />
             <vue-qrcode :value="bitcoinAddress" v-else />
 
           </div>
@@ -30,7 +33,9 @@
           <hr/>
 
           <div>
-            <div v-if="this.hash.inputValue ==='0x9b7c4f2e1d8a59c3bf071db2a6e23f1b5d8f9b0e2c7a4f9d2b0c1e8c7b4f3c5'" class="input-button-wrapper">
+            <div
+                v-if="selectedPaymentMethod.selectValue === 'Ethereum'"
+                class="input-button-wrapper">
               <input type="text" required v-model="inputValue4"  class="text-input" />
               <button  class="submit-button" @click="copyText2">Copy</button>
             </div>
@@ -41,11 +46,12 @@
             </div>
           </div>
 
-          <div v-if="this.hash.inputValue ==='0x9b7c4f2e1d8a59c3bf071db2a6e23f1b5d8f9b0e2c7a4f9d2b0c1e8c7b4f3c5'" class="input-button-wrapper">
+          <div
+              v-if="selectedPaymentMethod.selectValue === 'Ethereum'"
+              class="input-button-wrapper">
             <input type="text" required v-model="inputValueEth"  class="text-input" />
             <button  class="submit-button">Copy</button>
           </div>
-
           <div v-else class="input-button-wrapper">
               <input type="text" required v-model="inputValue2"  class="text-input" />
               <button  class="submit-button">Copy</button>
@@ -53,19 +59,24 @@
 
 
           <div class="input-button-wrapper">
-            <p v-if="this.hash.inputValue ==='0x9b7c4f2e1d8a59c3bf071db2a6e23f1b5d8f9b0e2c7a4f9d2b0c1e8c7b4f3c5'" class="text-fiat">Fiat amount:
+            <p
+                v-if="selectedPaymentMethod.selectValue === 'Ethereum'"
+                class="text-fiat">Fiat amount:
               <span v-show="this.hash.inputValue ==='0x9f8d5a2c3b4a1e7b09b122fd4b89ed7a059ed48d9c24e44a5f6a7d98c123cfad'">$4,000.00</span>
               <span v-show="this.hash.inputValue ==='0x3f5e2d1a8c9b04d2fa80123c5d93b7f4ad7c8f9e1b6a3b9c0d5f3e3d7a4a1e6'" >$2,000.00</span>
               <span v-show="this.hash.inputValue ==='0x3a4f9d2b1e8c7a9d4e1b12c7f5a8a6b9c1f7a2d3d4e5f2b7a6c8f1d9b2d3c4'" >$7,500.00</span>
               <span v-show="this.hash.inputValue ==='0xa76b1e3d5c2f9d8403f233ce5a16bc4a928be07f5d61c39b7e4c8a01e456ba98'" >$20,600.00</span>
               <span v-show="this.hash.inputValue ==='0x9b7c4f2e1d8a59c3bf071db2a6e23f1b5d8f9b0e2c7a4f9d2b0c1e8c7b4f3c5'" >$0</span>
-              | 1 ETH = {{ethereumRate}}</p>
+              <span v-show="this.hash.inputValue ==='0xE913Bf78B40285908B78142c6FF2D0B66B948AD7'" >$3999</span>
+              | 1 ETH = {{ethRate.ethereumRate}}</p>
             <p v-else class="text-fiat">Fiat amount:
               <span v-show="this.hash.inputValue ==='0x9f8d5a2c3b4a1e7b09b122fd4b89ed7a059ed48d9c24e44a5f6a7d98c123cfad'">$4,000.00</span>
               <span v-show="this.hash.inputValue ==='0x3f5e2d1a8c9b04d2fa80123c5d93b7f4ad7c8f9e1b6a3b9c0d5f3e3d7a4a1e6'" >$2,000.00</span>
               <span v-show="this.hash.inputValue ==='0x3a4f9d2b1e8c7a9d4e1b12c7f5a8a6b9c1f7a2d3d4e5f2b7a6c8f1d9b2d3c4'" >$7,500.00</span>
               <span v-show="this.hash.inputValue ==='0xa76b1e3d5c2f9d8403f233ce5a16bc4a928be07f5d61c39b7e4c8a01e456ba98'" >$20,600.00</span>
-              <span v-show="this.hash.inputValue ==='0x9b7c4f2e1d8a59c3bf071db2a6e23f1b5d8f9b0e2c7a4f9d2b0c1e8c7b4f3c5'" >$0</span>  | 1 BTC = {{bitcoinRate}}</p>
+              <span v-show="this.hash.inputValue ==='0x9b7c4f2e1d8a59c3bf071db2a6e23f1b5d8f9b0e2c7a4f9d2b0c1e8c7b4f3c5'" >$0</span>
+              <span v-show="this.hash.inputValue ==='0xE913Bf78B40285908B78142c6FF2D0B66B948AD7'" >$3999</span>
+              | 1 BTC = {{btcRate.bitcoinRate}}</p>
           </div>
 
           <hr/>
@@ -101,10 +112,14 @@ export default {
     VueQrcode,
   },
   computed: {
-    ...mapState(['loginForm']),
-    ...mapState(['amountForm']),
-    ...mapState(['hash']),
-    ...mapState(['convertedEth']),
+    ...mapState(['loginForm',
+      'amountForm',
+      'hash',
+      'convertedEth',
+      'selectedPaymentMethod',
+        'btcRate',
+        'ethRate'
+    ]),
   },
   props: {
     selectedItem: {
@@ -116,35 +131,29 @@ export default {
   methods:{
     async close() {
       this.$emit('close');
-      // await Swal.fire({
-      //   icon: 'success',
-      //   title: 'Pending',
-      //   text: 'Deposit Processing',
-      // });
     },
 
-    fetchBitcoinRate() {
-      // Set loading to true when the request starts
+    async fetchBitcoinRate() {
       this.loading = true;
-
-      // eslint-disable-next-line no-undef
-      axios.get('https://api.coindesk.com/v1/bpi/currentprice/BTC.json')
-          .then(response => {
-            this.bitcoinRate = response.data.bpi.USD.rate_float;
-            // Set loading to false when the data is successfully fetched
-            this.loading = false;
-          })
-          .catch(error => {
-            console.error(error);
-            // Set loading to false also if there is an error
-            this.loading = false;
-          });
+      this.bitcoinRate = "Loading..."
+      this.error = null;
+      try {
+        const response = await axios.get(
+            'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd'
+        );
+        this.bitcoinRate = response.data.bitcoin.usd;
+      } catch (err) {
+        console.error('Error fetching Bitcoin rate:', err);
+        this.error = 'Failed to fetch BTC rate';
+      } finally {
+        this.loading = false;
+      }
     },
 
     fetchEthereumRate() {
       // Set loading to true when the request starts
       this.loading = true;
-
+      this.ethereumRate = "Loading..."
       // Use CoinGecko API to fetch the Ethereum price
       axios.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd')
           .then(response => {
@@ -158,8 +167,6 @@ export default {
             this.loading = false;
           });
     },
-
-
 
     convertAndSave() {
       const usdAmount = parseFloat(this.inputValue3);
@@ -213,6 +220,7 @@ export default {
       inputValueEth: '',
       bitcoinRate: null,
       ethereumRate: null,
+      loading: false,
     };
   },
   created() {

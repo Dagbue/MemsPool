@@ -6,6 +6,9 @@ export default createStore({
     amountForm: {},
     hash: {},
     convertedEth: {},
+    selectedPaymentMethod: {},
+    btcRate: {},
+    ethRate: {},
   },
   getters: {
     getLoginForm: (state) => {
@@ -20,6 +23,15 @@ export default createStore({
     getConvertedEth: (state) => {
       return state.convertedEth;
     },
+    getSelectedPaymentMethod: (state) => {
+      return state.selectedPaymentMethod;
+    },
+    getBtcRate: (state) => {
+      return state.btcRate;
+    },
+    getEthRate: (state) => {
+      return state.ethRate;
+    },
   },
   mutations: {
     updateLoginForm(state, payload){
@@ -33,6 +45,16 @@ export default createStore({
     },
     updateConvertedEth(state, payload){
       state.convertedEth = payload
+    },
+    updateSelectedPaymentMethod(state, payload){
+      state.selectedPaymentMethod = payload
+    },
+
+    updateBtcRate(state, payload){
+      state.btcRate = payload
+    },
+    updateEthRate(state, payload){
+      state.ethRate = payload
     },
   },
   actions: {
