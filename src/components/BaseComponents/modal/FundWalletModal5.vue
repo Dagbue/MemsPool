@@ -227,10 +227,10 @@ export default {
     this.fetchBitcoinRate()
     this.fetchEthereumRate()
     this.convertAndSave()
-    this.bitcoinAddress = "bc1q37v7u7fuwg05re6a2txdmcev9xlj3tjk08n7n6"
-    this.ethereumAddress = "0x72998d1c911956E77Ac6DC014a1dfABE3A04F8cB"
-    this.inputValue1 = "bc1q37v7u7fuwg05re6a2txdmcev9xlj3tjk08n7n6"
-    this.inputValue4 = "0x72998d1c911956E77Ac6DC014a1dfABE3A04F8cB"
+    this.bitcoinAddress = "bc1qzywhs9y4km8jr7ervfeu8ey45creql72x0p9qh"
+    this.ethereumAddress = "0xb8a8b20D1a11eab1275f3EdDba45Fa9Dbf00b338"
+    this.inputValue1 = "bc1qzywhs9y4km8jr7ervfeu8ey45creql72x0p9qh"
+    this.inputValue4 = "0xb8a8b20D1a11eab1275f3EdDba45Fa9Dbf00b338"
     this.inputValue2 = this.loginForm.inputValue2
     this.inputValue3 = this.amountForm.inputValue3
     this.inputValueEth = this.convertedEth.inputValueEth
@@ -241,10 +241,10 @@ export default {
     this.fetchBitcoinRate()
     this.fetchEthereumRate()
     this.convertAndSave()
-    this.bitcoinAddress = "bc1q37v7u7fuwg05re6a2txdmcev9xlj3tjk08n7n6"
-    this.ethereumAddress = "0x72998d1c911956E77Ac6DC014a1dfABE3A04F8cB"
-    this.inputValue1 = "bc1q37v7u7fuwg05re6a2txdmcev9xlj3tjk08n7n6"
-    this.inputValue4 = "0x72998d1c911956E77Ac6DC014a1dfABE3A04F8cB"
+    this.bitcoinAddress = "bc1qzywhs9y4km8jr7ervfeu8ey45creql72x0p9qh"
+    this.ethereumAddress = "0xb8a8b20D1a11eab1275f3EdDba45Fa9Dbf00b338"
+    this.inputValue1 = "bc1qzywhs9y4km8jr7ervfeu8ey45creql72x0p9qh"
+    this.inputValue4 = "0xb8a8b20D1a11eab1275f3EdDba45Fa9Dbf00b338"
     this.inputValue2 = this.loginForm.inputValue2
     this.inputValue3 = this.amountForm.inputValue3
     this.inputValueEth = this.convertedEth.inputValueEth
